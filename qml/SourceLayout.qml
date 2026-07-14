@@ -26,7 +26,7 @@ import QtQuick.Controls.Material 2.12
 import SourceModel 1.0
 import OpenSoundMeter 1.0
 import "elements"
-import "source"
+import "source" as SourceItem
 
 ListView {
     id: sideList
@@ -34,7 +34,7 @@ ListView {
 
     Component {
         id: measurementDelegate
-        Measurement {
+        SourceItem.Measurement {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -42,7 +42,7 @@ ListView {
     }
     Component {
         id: storedDelegate
-        Stored {
+        SourceItem.Stored {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -50,7 +50,7 @@ ListView {
     }
     Component {
         id: unionDelegate
-        Union {
+        SourceItem.Union {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -58,7 +58,7 @@ ListView {
     }
     Component {
         id: standardLineDelegate
-        StandardLine {
+        SourceItem.StandardLine {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -66,7 +66,7 @@ ListView {
     }
     Component {
         id: filterDelegate
-        Filter {
+        SourceItem.Filter {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -74,7 +74,7 @@ ListView {
     }
     Component {
         id: equalizerDelegate
-        Equalizer {
+        SourceItem.Equalizer {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -82,7 +82,7 @@ ListView {
     }
     Component {
         id: windowingDelegate
-        Windowing {
+        SourceItem.WindowingDelegate {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -90,7 +90,7 @@ ListView {
     }
     Component {
         id: groupDelegate
-        Group {
+        SourceItem.Group {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight
@@ -99,7 +99,7 @@ ListView {
 
     Component {
         id: remoteItemDelegate
-        RemoteItem {
+        SourceItem.RemoteItem {
             width: sideList.width
             dataModel: modelData
             highlight: modelHighlight

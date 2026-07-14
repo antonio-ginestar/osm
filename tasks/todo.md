@@ -33,6 +33,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Verification:**
 - [x] Generated the QML resource manifest and the application autogen target with Qt 6.8.2.
 - [x] Verified `:/main.qml`, `:/Calculator.qml`, the historical `:/Plot/ImpulseProperties.qml` alias, and representative font/audio/image/shader mappings.
+- [x] Verified distinct generated type names for the top-level level meter, SPL meter, and visual windowing delegate; headless startup remains alive through QML shell construction.
 
 **Dependencies:** Task 1
 
@@ -283,7 +284,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 
 **Verification:**
 - [x] Qt 6.8 `qmllint` exits successfully for `Chart.qml`, `ChartProperties.qml`, and `PropertiesOpener.qml` (application-context warnings remain).
-- [x] Headless startup passes the migrated effect and stops later at a QML module name collision in source-item construction.
+- [x] Headless startup passes the migrated effect and remains alive through QML shell/source-item construction for the 12-second smoke window.
 - [ ] Visually inspect active/inactive charts and open all chart-level properties.
 
 **Dependencies:** Task 14

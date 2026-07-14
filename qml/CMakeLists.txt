@@ -79,6 +79,14 @@ set_source_files_properties(qml/Plot/ImplulseProperties.qml PROPERTIES
     QT_RESOURCE_ALIAS Plot/ImpulseProperties.qml
 )
 
+set_source_files_properties(qml/Meter.qml PROPERTIES
+    QT_QML_SOURCE_TYPENAME LevelMeter
+)
+
+set_source_files_properties(qml/source/Windowing.qml PROPERTIES
+    QT_QML_SOURCE_TYPENAME WindowingDelegate
+)
+
 qt_add_qml_module(OpenSoundMeter
     URI OpenSoundMeterModule
     VERSION 1.0
