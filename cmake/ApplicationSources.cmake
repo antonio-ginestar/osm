@@ -209,6 +209,8 @@ set(OSM_APPLICATION_SOURCES
     src/remote/server.h
     src/remote/tcpreciever.cpp
     src/remote/tcpreciever.h
+    src/remote/variantjson.cpp
+    src/remote/variantjson.h
 
     src/shared/source_shared.cpp
     src/shared/source_shared.h
