@@ -126,12 +126,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Replace removed/deprecated `QVariant::Type` dispatch in the remote server with documented Qt 6 metatype APIs without changing payloads.
 
 **Acceptance criteria:**
-- [ ] Server conversion compiles without deprecated Qt 5 type APIs.
-- [ ] Task 6 payload expectations remain unchanged.
+- [x] Server conversion compiles without deprecated Qt 5 type APIs.
+- [x] Task 6 payload expectations remain unchanged.
 
 **Verification:**
-- [ ] Run the remote variant test.
-- [ ] Build the server source with deprecation warnings enabled.
+- [x] `ctest --test-dir build-qt6 --output-on-failure -R remote_variant_test` passes with Qt 6.8.2.
+- [x] Built `src/remote/server.cpp` with the target's `QT_DEPRECATED_WARNINGS` definition enabled.
 
 **Dependencies:** Task 6
 

@@ -20,6 +20,7 @@
 #include "meta/metabase.h"
 #include "remote/server.h"
 #include "remote/item.h"
+#include "remote/variantjson.h"
 
 namespace remote {
 
@@ -248,46 +249,9 @@ QByteArray Server::tcpCallback([[maybe_unused]] const QHostAddress &&address, co
         for (int i = 0 ; i < targetQObject->metaObject()->propertyCount(); ++i) {
             auto property = targetQObject->metaObject()->property(i);
 
-            switch (static_cast<int>(property.type())) {
-
-            case QVariant::Type::Bool:
-                object[property.name()]  = property.read(targetQObject).toBool();
-                break;
-
-            case QVariant::Type::UInt:
-            case QVariant::Type::Int:
-            case QMetaType::Long:
-                object[property.name()]  = property.read(targetQObject).toInt();
-                break;
-
-            case QMetaType::Float:
-                object[property.name()]  = property.read(targetQObject).toFloat();
-                break;
-
-            case QVariant::Type::Double:
-                object[property.name()]  = property.read(targetQObject).toDouble();
-                break;
-
-            case QVariant::Type::String:
-                object[property.name()]  = property.read(targetQObject).toString();
-                break;
-
-            case QVariant::Type::Color: {
-                QJsonObject color;
-                if (source) {
-                    color["red"]     = source->color().red();
-                    color["green"]   = source->color().green();
-                    color["blue"]    = source->color().blue();
-                    color["alpha"]   = source->color().alpha();
-                }
-                object[property.name()]  = color;
-                break;
-            }
-            case QVariant::Type::UserType: {
-                object[property.name()] = property.read(targetQObject).toInt();
-            }
-            default:
-                ;
+            const auto value = variantToJson(property.read(targetQObject));
+            if (!value.isUndefined()) {
+                object[property.name()] = value;
             }
         }
 
@@ -331,42 +295,9 @@ QByteArray Server::tcpCallback([[maybe_unused]] const QHostAddress &&address, co
             }
             auto property = metaObject->property(index);
 
-            switch (static_cast<int>(property.type())) {
-            case QVariant::Type::Bool:
-                property.write(targetQObject, itemData[field].toBool());
-                break;
-
-            case QVariant::Type::UInt:
-            case QVariant::Type::Int:
-            case QMetaType::Long:
-                property.write(targetQObject, itemData[field].toInt());
-                break;
-
-
-            case QMetaType::Float:
-            case QVariant::Type::Double:
-                property.write(targetQObject, itemData[field].toDouble());
-                break;
-
-            case QVariant::Type::String:
-                property.write(targetQObject, itemData[field].toString());
-                break;
-
-            case QVariant::Type::Color: {
-                auto colorObject = itemData[field].toObject();
-                QColor color(
-                    colorObject["red"  ].toInt(0),
-                    colorObject["green"].toInt(0),
-                    colorObject["blue" ].toInt(0),
-                    colorObject["alpha"].toInt(1));
-                property.write(targetQObject, color);
-                break;
-            }
-            case QVariant::Type::UserType:
-                property.write(targetQObject, itemData[field].toInt());
-                break;
-            default:
-                ;
+            const auto value = jsonToVariant(itemData.value(field), property.metaType());
+            if (value.isValid()) {
+                property.write(targetQObject, value);
             }
         }
         QJsonDocument document(std::move(object));

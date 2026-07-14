@@ -50,6 +50,46 @@ private slots:
     {
         QVERIFY(remote::variantToJson(QDate(2026, 7, 15)).isUndefined());
     }
+
+    void convertsJsonToScalarValues()
+    {
+        QCOMPARE(remote::jsonToVariant(true, QMetaType::fromType<bool>()),
+                 QVariant(true));
+        QCOMPARE(remote::jsonToVariant(42, QMetaType::fromType<int>()),
+                 QVariant(42));
+        QCOMPARE(remote::jsonToVariant(42, QMetaType::fromType<uint>()),
+                 QVariant(42U));
+        QCOMPARE(remote::jsonToVariant(1.25, QMetaType::fromType<float>()),
+                 QVariant(1.25F));
+        QCOMPARE(remote::jsonToVariant(QStringLiteral("source"),
+                                       QMetaType::fromType<QString>()),
+                 QVariant(QStringLiteral("source")));
+    }
+
+    void convertsJsonToColor()
+    {
+        const QJsonObject json {
+            {QStringLiteral("red"), 12},
+            {QStringLiteral("green"), 34},
+            {QStringLiteral("blue"), 56},
+            {QStringLiteral("alpha"), 78}
+        };
+
+        QCOMPARE(remote::jsonToVariant(json, QMetaType::fromType<QColor>()),
+                 QVariant(QColor(12, 34, 56, 78)));
+    }
+
+    void convertsJsonToEnumerationStorage()
+    {
+        QCOMPARE(remote::jsonToVariant(2, QMetaType::fromType<ExampleMode>()),
+                 QVariant(2));
+    }
+
+    void leavesUnsupportedJsonInvalid()
+    {
+        QVERIFY(!remote::jsonToVariant(QStringLiteral("2026-07-15"),
+                                       QMetaType::fromType<QDate>()).isValid());
+    }
 };
 
 QTEST_MAIN(RemoteVariantTest)
