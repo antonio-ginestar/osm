@@ -510,11 +510,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert the remaining source row components to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] Source rows retain selection, naming, visibility, and action behavior.
-- [ ] Versionless imports resolve under Qt 6.8.
+- [x] Source-row selection, naming, visibility, and action code is unchanged.
+- [x] Versionless imports resolve under Qt 6.8.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all five files without compatibility findings.
+- [x] The full application builds and all three tests pass.
 - [ ] Create and interact with each source type.
 
 **Dependencies:** Task 26
