@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.21)
 
 project(OpenSoundMeter LANGUAGES CXX)
 
+include(CTest)
+include(GNUInstallDirs)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -16,6 +19,7 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS
     Quick
     QuickControls2
     QuickDialogs2
+    Test
     Widgets
 )
 
@@ -88,3 +92,10 @@ target_link_libraries(OpenSoundMeter PRIVATE
     Qt6::QuickDialogs2
     Qt6::Widgets
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+
+include(cmake/Deployment.cmake)
+osm_configure_deployment(OpenSoundMeter)

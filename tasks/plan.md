@@ -45,7 +45,7 @@ CMake application target
 - [x] Task 2: Add the QML module and preserve application resource URLs.
 - [ ] Task 3: Port Linux, macOS, and Windows native audio selection to CMake.
 - [ ] Task 4: Port OpenGL and optional Metal build selection to CMake.
-- [ ] Task 5: Add CTest, Qt Test, QML lint, install, and deployment foundations.
+- [x] Task 5: Add CTest, Qt Test, QML lint, install, and deployment foundations.
 
 ### Checkpoint: Foundation
 

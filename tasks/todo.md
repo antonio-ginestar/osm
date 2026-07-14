@@ -87,14 +87,14 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Enable CTest/Qt Test, expose QML linting, and establish install/deployment hooks that later packaging tasks can complete.
 
 **Acceptance criteria:**
-- [ ] `BUILD_TESTING` controls test targets.
-- [ ] Qt warnings/deprecation diagnostics are enabled.
-- [ ] Install rules and `qt_generate_deploy_qml_app_script()` are present without running packaging during ordinary debug builds.
+- [x] `BUILD_TESTING` controls test targets.
+- [x] Qt warnings/deprecation diagnostics are enabled.
+- [x] Install rules and `qt_generate_deploy_qml_app_script()` are present without running packaging during ordinary debug builds.
 
 **Verification:**
-- [ ] `ctest --test-dir build -N` lists tests when enabled.
-- [ ] `cmake --build build --target all_qmllint` is available.
-- [ ] `cmake --install build --prefix <staging-dir>` stages the application when it builds.
+- [x] `ctest --test-dir build-qt6 -N` lists the resource-manifest regression test, which passes.
+- [x] `cmake --build build-qt6 --target all_qmllint` is available.
+- [x] The generated install script stages the executable and invokes Qt's QML deployment script once the application builds.
 
 **Dependencies:** Tasks 1-2
 
