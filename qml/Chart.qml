@@ -15,10 +15,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.12
+import QtQuick
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
-import QtGraphicalEffects 1.15
+import QtQuick.Effects
 import OpenSoundMeter 1.0
 import "elements"
 import "SPL" as SPL;
@@ -240,7 +240,7 @@ Item {
             property int mouseButtonClicked: Qt.NoButton
             pushObject: chart.plot;
             enabled: chart.plot
-            cursorShape: "CrossCursor";
+            cursorShape: Qt.CrossCursor;
             hoverEnabled: true
             onEntered: cursor.visible = true
             onExited: cursor.visible = false
@@ -335,15 +335,15 @@ Item {
             text: cursor.text
         }
 
-        DropShadow {
+        MultiEffect {
             anchors.fill: cursorText
-            horizontalOffset: 0
-            verticalOffset: 0
-            radius: 1.0
-            samples: 9
-            spread: 1
-            color: applicationAppearance.darkMode ? "#99000000" : "#99FFFFFF"
             source: cursorText
+            shadowEnabled: true
+            shadowBlur: 0.1
+            blurMax: 8
+            shadowHorizontalOffset: 0
+            shadowVerticalOffset: 0
+            shadowColor: applicationAppearance.darkMode ? "#99000000" : "#99FFFFFF"
         }
 
         onCursorXChanged: {

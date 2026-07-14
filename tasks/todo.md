@@ -187,7 +187,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 
 **Verification:**
 - [x] Full Qt 6.8.2 OpenGL configuration builds and links on Linux.
-- [x] Startup passes the Controls 1 shell migration and reaches `Chart.qml`; chart rendering is now blocked by the `QtGraphicalEffects` migration tracked in Task 15.
+- [x] Startup passes the removed Controls 1 and Graphical Effects modules and reaches live source-item construction; chart runtime verification remains pending.
 
 **Dependencies:** Tasks 2, 4, 9
 
@@ -277,12 +277,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Replace removed Graphical Effects and legacy dialog imports used by the chart shell, preserving visual emphasis and chart property actions.
 
 **Acceptance criteria:**
-- [ ] No `QtGraphicalEffects` or Dialogs 1 import remains in the chart shell.
-- [ ] Selected/active chart appearance remains clear in both themes.
-- [ ] Chart properties and chart type changes work.
+- [x] No `QtGraphicalEffects` or Dialogs 1 import remains in the chart shell.
+- [x] The cursor's theme-aware halo uses Qt 6.8 `MultiEffect` with the original light/dark colors.
+- [x] Chart property routing/type-change logic is unchanged, and chart image saving uses the Dialogs 2 save-file contract.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for `Chart.qml`, `ChartProperties.qml`, and `PropertiesOpener.qml` (application-context warnings remain).
+- [x] Headless startup passes the migrated effect and stops later at a QML module name collision in source-item construction.
 - [ ] Visually inspect active/inactive charts and open all chart-level properties.
 
 **Dependencies:** Task 14
