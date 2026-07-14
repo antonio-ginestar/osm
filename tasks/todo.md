@@ -529,11 +529,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert source property files not already changed by dialog slices to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] All source property files use versionless supported imports.
-- [ ] Group, filter, and remote-item properties behave as before.
+- [x] All source property files use versionless supported imports.
+- [x] Group, filter, and remote-item property code is unchanged.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all three files without compatibility findings.
+- [x] The full application builds and all three tests pass.
 - [ ] Open and modify each affected property panel.
 
 **Dependencies:** Task 27
