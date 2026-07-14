@@ -434,11 +434,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert the remaining top-level target/layout components to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] Versionless imports resolve under Qt 6.8.
-- [ ] Target trace and SPL grid/meter behavior remains unchanged.
+- [x] Versionless imports resolve under Qt 6.8.
+- [x] Target trace and SPL grid/meter bindings/actions are unchanged, and the disambiguated SPL meter compiles through the generated QML module.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all five files without compatibility findings.
+- [x] The full application builds and all three tests pass.
 - [ ] Exercise target trace visibility/editing and SPL display.
 
 **Dependencies:** Task 22
