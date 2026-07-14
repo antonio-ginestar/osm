@@ -15,12 +15,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.7
+import QtQuick
 import QtCore
-import QtQuick.Controls 2.15
-import QtQuick.Controls.Material 2.1
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Window
 import QtQuick.Dialogs
 import SourceModel 1.0
 import OpenSoundMeter 1.0
@@ -36,9 +36,9 @@ ApplicationWindow {
     property alias message : message
     property alias dialog : dialog
     property alias sideMenu: sideMenu
-    property string backgroundColor: Material.backgroundColor
-    property string accentColor: Material.accent
-    property string foregroundColor: Material.foreground
+    property color backgroundColor: Material.backgroundColor
+    property color accentColor: Material.accent
+    property color foregroundColor: Material.foreground
     readonly property bool narrowWindow: width < 1024
 
     visible: true

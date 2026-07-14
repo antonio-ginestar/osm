@@ -15,12 +15,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.3
-import QtQml 2.2
-import QtQml.Models 2.3
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml
+import QtQml.Models
+import QtQuick.Controls.Material
 
 import SourceModel 1.0
 import OpenSoundMeter 1.0
