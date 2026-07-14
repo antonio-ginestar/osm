@@ -45,13 +45,15 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Select ALSA, CoreAudio, or WASAPI by host platform and preserve optional ASIO discovery outside the repository.
 
 **Acceptance criteria:**
-- [ ] Linux links ALSA and compiles `alsa.cpp`.
+- [x] Linux links ALSA and compiles `alsa.cpp`.
 - [ ] macOS links CoreAudio/AudioToolbox and compiles `coreaudio.cpp`.
 - [ ] Windows links required system libraries and compiles WASAPI; ASIO is opt-in when a valid SDK path is supplied.
 
 **Verification:**
-- [ ] Configure output identifies exactly one required native backend.
+- [x] Linux configure output identifies ALSA as the single required native backend.
 - [ ] Platform builds compile their selected backend.
+
+**Current evidence:** Qt 6.8.2/GCC 14.2 compiled `client.cpp` and `alsa.cpp` against ALSA 1.2.14. macOS and Windows checks remain assigned to Tasks 32 and 33.
 
 **Dependencies:** Task 1
 
