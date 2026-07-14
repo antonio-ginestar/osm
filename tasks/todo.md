@@ -357,11 +357,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Port measurement, equalizer, and stored-source dialog usage.
 
 **Acceptance criteria:**
-- [ ] File/color selections feed the same source properties.
-- [ ] No versioned Qt or Dialogs 1 imports remain in the batch.
+- [x] Calibration uses Dialogs 2 `OpenFile`; equalizer/stored exports retain their save callbacks and dynamic suffix dispatch through `selectedFile`.
+- [x] The color picker seeds and accepts Qt 6.8 `ColorDialog.selectedColor` while preserving right-click color cycling.
+- [x] No versioned Qt or Dialogs 1 imports remain in the batch.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all four files (standalone application-context warnings remain).
+- [x] The full application builds and all three tests pass.
 - [ ] Exercise calibration/import/color workflows in each component.
 
 **Dependencies:** Task 12

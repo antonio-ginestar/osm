@@ -15,8 +15,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.7
-import QtQuick.Dialogs 1.2
+import QtQuick
+import QtQuick.Dialogs
 
 Item {
     id: picker
@@ -32,7 +32,7 @@ Item {
     MouseArea {
         property int mouseButtonClicked: Qt.NoButton
         anchors.fill: preview
-        cursorShape: "PointingHandCursor"
+        cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
             if (pressedButtons & Qt.LeftButton) {
@@ -43,6 +43,7 @@ Item {
         }
         onClicked: function(e) {
             if (mouseButtonClicked === Qt.LeftButton) {
+                colorDialog.selectedColor = picker.color
                 colorDialog.open()
             } else if (mouseButtonClicked === Qt.RightButton) {
                 picker.color = sourceList.nextColor();
@@ -53,10 +54,9 @@ Item {
     ColorDialog {
         id: colorDialog
         title: qsTr("Please choose a color")
-        color: picker.color
 
         onAccepted: {
-            picker.color = color
+            picker.color = selectedColor
         }
     }
 }

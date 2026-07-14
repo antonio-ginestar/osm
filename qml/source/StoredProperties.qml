@@ -15,11 +15,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.13
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls.Material 2.12
+import QtCore
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
+import QtQuick.Controls.Material
 
 import OpenSoundMeter 1.0
 import "qrc:/elements"
@@ -173,29 +174,29 @@ Item {
 
     FileDialog {
         id: fileDialog
-        selectExisting: false
+        fileMode: FileDialog.SaveFile
         title: "Please choose a file's name"
-        folder: (typeof shortcuts !== 'undefined' ? shortcuts.home : Filesystem.StandardFolder.Home)
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
         defaultSuffix: saveas
         onAccepted: {
             switch (saveas) {
                 case "osm":
-                    dataObjectData.save(fileDialog.fileUrl);
+                    dataObjectData.save(fileDialog.selectedFile);
                     break;
                 case "cal":
-                    dataObjectData.saveCal(fileDialog.fileUrl);
+                    dataObjectData.saveCal(fileDialog.selectedFile);
                     break;
                 case "txt":
-                    dataObjectData.saveTXT(fileDialog.fileUrl);
+                    dataObjectData.saveTXT(fileDialog.selectedFile);
                     break;
                 case "csv":
-                    dataObjectData.saveCSV(fileDialog.fileUrl);
+                    dataObjectData.saveCSV(fileDialog.selectedFile);
                     break;
                 case "frd":
-                    dataObjectData.saveFRD(fileDialog.fileUrl);
+                    dataObjectData.saveFRD(fileDialog.selectedFile);
                     break;
                 case "wav":
-                    dataObjectData.saveWAV(fileDialog.fileUrl);
+                    dataObjectData.saveWAV(fileDialog.selectedFile);
                     break;
             }
         }
