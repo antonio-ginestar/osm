@@ -3,5 +3,5 @@ Type=Application
 Name=Open Sound Meter
 Comment=FFT based application for tuning sound systems.
 Exec=OpenSoundMeter
-Icon=white
+Icon=opensoundmeter
 Categories=AudioVideo;

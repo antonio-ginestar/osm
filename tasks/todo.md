@@ -548,13 +548,20 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Complete install/deployment behavior for Linux, macOS, and Windows, preserving icons, desktop metadata, plist/entitlements, and runtime QML/plugins.
 
 **Acceptance criteria:**
-- [ ] CMake install produces a self-contained staging tree using Qt's deployment API.
-- [ ] macOS bundle metadata/microphone usage and Windows/Linux icons are present.
-- [ ] Packaging is not run as an unconditional post-link side effect.
+- [x] CMake install produces a self-contained staging tree using Qt's deployment API.
+- [x] macOS bundle metadata/microphone usage and Windows/Linux icons are present.
+- [x] Packaging is not run as an unconditional post-link side effect.
 
 **Verification:**
 - [ ] Stage an install on each platform and launch it outside the build tree.
-- [ ] Inspect platform metadata and required plugins/resources.
+- [x] Inspect platform metadata and required plugins/resources.
+
+Linux verification (2026-07-15): `cmake --install build-qt6 --prefix <stage>`
+installed the executable, relative runtime configuration, Qt libraries, plugins,
+QML modules, desktop entry, and hicolor icon. The staged executable launched
+outside the build tree and remained running until the 10-second smoke-test
+timeout after supplying the build host's missing system XCB prerequisites.
+macOS and Windows staging/launch verification remains pending on those hosts.
 
 **Dependencies:** Tasks 5, 10-11, 28
 

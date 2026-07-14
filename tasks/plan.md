@@ -99,7 +99,7 @@ CMake application target
 
 ### Phase 4: Packaging, Verification, and Retirement
 
-- [ ] Task 29: Restore desktop metadata, icons, installation, and Qt deployment scripts.
+- [x] Task 29: Restore desktop metadata, icons, installation, and Qt deployment scripts.
 - [ ] Task 30: Update developer and user build documentation for Qt 6/CMake.
 - [ ] Task 31: Run and record the Linux workflow verification matrix.
 - [ ] Task 32: Run and record the macOS workflow verification matrix, including Metal.
