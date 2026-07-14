@@ -25,6 +25,8 @@
 #include "common/settings.h"
 #include "shared/source_shared.h"
 
+Q_MOC_INCLUDE("sourcelist.h")
+
 namespace Chart {
 
 class MeterPlot : public QObject, public LevelObject

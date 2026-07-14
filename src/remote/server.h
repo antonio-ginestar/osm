@@ -25,9 +25,6 @@
 
 class SourceList;
 class Generator;
-namespace Source {
-class Abstract;
-}
 
 namespace remote {
 
