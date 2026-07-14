@@ -16,9 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 
 MenuItem {
     id: control

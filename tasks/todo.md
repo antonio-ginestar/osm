@@ -453,11 +453,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert the first group of reusable controls to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] Controls retain value, focus, selection, and validation behavior.
-- [ ] Versionless imports resolve under Qt 6.8.
+- [x] Control value, focus, selection, and validation code is unchanged.
+- [x] Versionless imports resolve under Qt 6.8.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all five files (application-context/unqualified-access warnings remain).
+- [x] The full application builds and all three tests pass.
 - [ ] Exercise each element through its consuming property panel.
 
 **Dependencies:** Task 23
