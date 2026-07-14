@@ -20,7 +20,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QApplication>
+#include <QCoreApplication>
 
 QString workingfolder::logFilePath()
 {
@@ -44,8 +44,8 @@ QString workingfolder::commonPath()
 {
     auto static path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
-    if ( path.indexOf(QApplication::applicationName()) == -1) {
-        path += "/" + QApplication::applicationName();
+    if ( path.indexOf(QCoreApplication::applicationName()) == -1) {
+        path += "/" + QCoreApplication::applicationName();
     }
     if (!QDir(path).exists()) {
         QDir("/").mkpath(path);

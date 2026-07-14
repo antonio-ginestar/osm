@@ -38,7 +38,7 @@ QVariant Settings::value(const QString &key, const QVariant &defaultValue)
 {
     group_guard guard(m_group);
     QVariant value = m_settings->value(key);
-    if (value == QVariant::Invalid && defaultValue != QVariant::Invalid) {
+    if (!value.isValid() && defaultValue.isValid()) {
         m_settings->setValue(key, defaultValue);
         value = m_settings->value(key);
     }

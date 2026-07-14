@@ -170,6 +170,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Verification:**
 - [x] Built after each batch of no more than five source files, including regenerated AUTOMOC output.
 - [x] `ctest --test-dir build-qt6 --output-on-failure` passes after each batch.
+- [x] `settings_test` proves missing-value defaults persist, existing values win, and an omitted default remains invalid under Qt 6.
 
 **Dependencies:** Tasks 3, 7-8
 
@@ -264,7 +265,8 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 
 **Verification:**
 - [x] Qt 6.8 `qmllint` exits successfully for `Charts.qml`, `SideBar.qml`, and `main.qml` (application-context warnings remain).
-- [x] Headless startup passes the migrated shell and stops at Task 15's unavailable `QtGraphicalEffects` import.
+- [x] Headless startup passes the migrated shell and remains alive for the 12-second smoke window.
+- [x] A clean first-run settings directory now starts without typed-property `undefined` assignment errors.
 - [ ] Resize/equalize charts, restart, and verify persisted layout at wide and narrow widths.
 
 **Dependencies:** Task 13

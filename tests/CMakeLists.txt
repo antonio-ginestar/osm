@@ -18,3 +18,17 @@ target_link_libraries(remote_variant_test PRIVATE
     Qt6::Test
 )
 add_test(NAME remote_variant_test COMMAND remote_variant_test)
+
+qt_add_executable(settings_test
+    settings_test.cpp
+    "${PROJECT_SOURCE_DIR}/src/common/settings.cpp"
+    "${PROJECT_SOURCE_DIR}/src/common/settings.h"
+    "${PROJECT_SOURCE_DIR}/src/common/workingfolder.cpp"
+    "${PROJECT_SOURCE_DIR}/src/common/workingfolder.h"
+)
+target_include_directories(settings_test PRIVATE "${PROJECT_SOURCE_DIR}/src")
+target_link_libraries(settings_test PRIVATE
+    Qt6::Core
+    Qt6::Test
+)
+add_test(NAME settings_test COMMAND settings_test)
