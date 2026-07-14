@@ -377,11 +377,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Port union, standard-line, windowing, and remote property dialog usage.
 
 **Acceptance criteria:**
-- [ ] Existing file/color selections and property bindings remain functional.
-- [ ] No versioned Qt or Dialogs 1 imports remain in the batch.
+- [x] The files contained no dialog instances; removing their unused Dialogs 1 imports leaves all property/color bindings unchanged.
+- [x] No versioned Qt or Dialogs 1 imports remain in the batch.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all four files (standalone application-context warnings remain).
+- [x] The full application builds and all three tests pass.
 - [ ] Exercise representative property changes for each component.
 
 **Dependencies:** Task 19
