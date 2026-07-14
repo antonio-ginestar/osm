@@ -396,11 +396,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert a bounded set of top-level QML components to versionless Qt 6 imports without behavior changes.
 
 **Acceptance criteria:**
-- [ ] Versionless imports resolve under Qt 6.8.
-- [ ] Generator and meter bindings/actions are unchanged.
+- [x] Versionless imports resolve under Qt 6.8.
+- [x] Generator and meter bindings/actions are unchanged; `EQPoints` retains its single drag key through the Qt 6 string-list form.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all five files (standalone registered-type context warnings remain).
+- [x] The full application builds and all three tests pass.
 - [ ] Open generator and meter views and exercise their main controls.
 
 **Dependencies:** Tasks 13-15

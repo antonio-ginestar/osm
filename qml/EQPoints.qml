@@ -15,11 +15,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import QtQuick.Controls 2.1
-import QtQuick.Window 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls.Material 2.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 import SourceModel 1.0
 import OpenSoundMeter 1.0
@@ -165,9 +165,8 @@ Item {
 
     DropArea {
         anchors.fill: parent
-        keys: "xyz"
+        keys: ["xyz"]
         onEntered: drag.source.caught = true;
         onExited: drag.source.caught = false;
     }
 }
-
