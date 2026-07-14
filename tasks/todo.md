@@ -144,12 +144,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Apply the proven metatype conversion pattern to the remaining remote/generator paths.
 
 **Acceptance criteria:**
-- [ ] Generator remote, remote item, and remote client compile with Qt 6 metatype APIs.
-- [ ] Generator property payloads preserve existing values and types.
+- [x] Generator remote, remote item, and remote client compile with Qt 6 metatype APIs.
+- [x] Generator property payloads preserve existing values and types.
 
 **Verification:**
-- [ ] Extend and run focused conversion tests first.
-- [ ] Build affected targets with deprecation warnings enabled.
+- [x] Extended the conversion tests for long, double, and the legacy missing-alpha default; `remote_variant_test` passes.
+- [x] Built `generatorremote.cpp`, `item.cpp`, and `remoteclient.cpp` with the target's `QT_DEPRECATED_WARNINGS` definition enabled.
 
 **Dependencies:** Task 7
 

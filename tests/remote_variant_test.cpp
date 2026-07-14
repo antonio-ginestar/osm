@@ -59,8 +59,12 @@ private slots:
                  QVariant(42));
         QCOMPARE(remote::jsonToVariant(42, QMetaType::fromType<uint>()),
                  QVariant(42U));
+        QCOMPARE(remote::jsonToVariant(42, QMetaType::fromType<long>()),
+                 QVariant::fromValue(42L));
         QCOMPARE(remote::jsonToVariant(1.25, QMetaType::fromType<float>()),
                  QVariant(1.25F));
+        QCOMPARE(remote::jsonToVariant(2.5, QMetaType::fromType<double>()),
+                 QVariant(2.5));
         QCOMPARE(remote::jsonToVariant(QStringLiteral("source"),
                                        QMetaType::fromType<QString>()),
                  QVariant(QStringLiteral("source")));
@@ -77,6 +81,18 @@ private slots:
 
         QCOMPARE(remote::jsonToVariant(json, QMetaType::fromType<QColor>()),
                  QVariant(QColor(12, 34, 56, 78)));
+    }
+
+    void defaultsMissingJsonAlphaToLegacyValue()
+    {
+        const QJsonObject json {
+            {QStringLiteral("red"), 12},
+            {QStringLiteral("green"), 34},
+            {QStringLiteral("blue"), 56}
+        };
+
+        QCOMPARE(remote::jsonToVariant(json, QMetaType::fromType<QColor>()),
+                 QVariant(QColor(12, 34, 56, 1)));
     }
 
     void convertsJsonToEnumerationStorage()

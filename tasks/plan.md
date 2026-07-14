@@ -58,7 +58,7 @@ CMake application target
 
 - [x] Task 6: Add regression tests for variant-to-JSON remote payload conversion.
 - [x] Task 7: Port server-side variant type handling to Qt 6.
-- [ ] Task 8: Port generator/item/client variant type handling to Qt 6.
+- [x] Task 8: Port generator/item/client variant type handling to Qt 6.
 - [ ] Task 9: Resolve remaining Qt Core/Gui/Network Qt 6 compile failures in bounded batches.
 - [ ] Task 10: Port the OpenGL scene-graph integration to Qt 6.
 - [ ] Task 11: Port and verify the optional macOS Metal scene-graph integration.

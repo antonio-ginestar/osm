@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "item.h"
+#include "remote/variantjson.h"
 #include <QJsonArray>
 #include <QMetaProperty>
 
@@ -81,44 +82,9 @@ QJsonObject Item::metaJsonObject(QString propertyName) const
             continue;
         }
 
-        switch (static_cast<int>(property.type())) {
-
-        case QVariant::Type::Bool:
-            object[property.name()]  = property.read(this).toBool();
-            break;
-
-        case QVariant::Type::UInt:
-        case QVariant::Type::Int:
-        case QMetaType::Long:
-            object[property.name()]  = property.read(this).toInt();
-            break;
-
-        case QMetaType::Float:
-            object[property.name()]  = property.read(this).toFloat();
-            break;
-
-        case QVariant::Type::Double:
-            object[property.name()]  = property.read(this).toDouble();
-            break;
-
-        case QVariant::Type::String:
-            object[property.name()]  = property.read(this).toString();
-            break;
-
-        case QVariant::Type::Color: {
-            QJsonObject color;
-            color["red"]     = this->color().red();
-            color["green"]   = this->color().green();
-            color["blue"]    = this->color().blue();
-            color["alpha"]   = this->color().alpha();
-            object[property.name()]  = color;
-            break;
-        }
-        case QVariant::Type::UserType: {
-            object[property.name()] = property.read(this).toInt();
-        }
-        default:
-            ;
+        const auto value = variantToJson(property.read(this));
+        if (!value.isUndefined()) {
+            object[property.name()] = value;
         }
     }
 

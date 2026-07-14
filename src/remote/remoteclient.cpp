@@ -21,6 +21,7 @@
 #include "remote/items/storeditem.h"
 #include "remote/items/measurementitem.h"
 #include "remote/items/groupitem.h"
+#include "remote/variantjson.h"
 
 namespace remote {
 
@@ -159,11 +160,11 @@ void Client::sendCommand(const std::shared_ptr<Item> &item, QString command, QVa
         QJsonObject object;
         object["name"] = command;
 
-        switch (arg.type()) {
-        case QVariant::Type::Invalid:
+        switch (arg.metaType().id()) {
+        case QMetaType::UnknownType:
             break;
         case QMetaType::Float:
-        case QVariant::Type::Double:
+        case QMetaType::Double:
             object["argType"] = "float";
             object["argValue"] = arg.toFloat();
             break;
@@ -308,7 +309,7 @@ void Client::processData(QHostAddress senderAddress, [[maybe_unused]] int sender
 
         if (message == "added" && !item) {
             auto data = document["data"].toObject();
-            auto groupUuid = data["group"].toString();
+            auto groupUuid = QUuid::fromString(data["group"].toString());
             item = addItem(serverId, sourceId, document["objectName"].toString(), host, groupUuid);
             requestChanged(item);
             requestUpdate(item);
@@ -386,43 +387,9 @@ void Client::requestChanged(const std::shared_ptr<Item> &item)
             }
             auto property = metaObject->property(index);
 
-            switch (static_cast<int>(property.type())) {
-            case QVariant::Type::Bool:
-                property.write(item.get(), document[field].toBool());
-                break;
-
-            case QVariant::Type::UInt:
-            case QVariant::Type::Int:
-            case QMetaType::Long:
-                property.write(item.get(), document[field].toInt());
-                break;
-
-
-            case QMetaType::Float:
-            case QVariant::Type::Double:
-                property.write(item.get(), document[field].toDouble());
-                break;
-
-            case QVariant::Type::String:
-                property.write(item.get(), document[field].toString());
-                break;
-
-            case QVariant::Type::Color: {
-                auto colorObject = document[field].toObject();
-                QColor color(
-                    colorObject["red"  ].toInt(0),
-                    colorObject["green"].toInt(0),
-                    colorObject["blue" ].toInt(0),
-                    colorObject["alpha"].toInt(1));
-                property.write(item.get(), color);
-                break;
-            }
-            case QVariant::Type::UserType: {
-                property.write(item.get(), document[field].toInt());
-                break;
-            }
-            default:
-                ;
+            const auto value = jsonToVariant(document.value(field), property.metaType());
+            if (value.isValid()) {
+                property.write(item.get(), value);
             }
         }
 
@@ -450,43 +417,9 @@ void Client::requestGenearatorChanged(const SharedGeneratorRemote &genearator)
             }
             auto property = metaObject->property(index);
 
-            switch (static_cast<int>(property.type())) {
-            case QVariant::Type::Bool:
-                property.write(genearator.get(), document[field].toBool());
-                break;
-
-            case QVariant::Type::UInt:
-            case QVariant::Type::Int:
-            case QMetaType::Long:
-                property.write(genearator.get(), document[field].toInt());
-                break;
-
-
-            case QMetaType::Float:
-            case QVariant::Type::Double:
-                property.write(genearator.get(), document[field].toDouble());
-                break;
-
-            case QVariant::Type::String:
-                property.write(genearator.get(), document[field].toString());
-                break;
-
-            case QVariant::Type::Color: {
-                auto colorObject = document[field].toObject();
-                QColor color(
-                    colorObject["red"  ].toInt(0),
-                    colorObject["green"].toInt(0),
-                    colorObject["blue" ].toInt(0),
-                    colorObject["alpha"].toInt(1));
-                property.write(genearator.get(), color);
-                break;
-            }
-            case QVariant::Type::UserType: {
-                property.write(genearator.get(), document[field].toInt());
-                break;
-            }
-            default:
-                ;
+            const auto value = jsonToVariant(document.value(field), property.metaType());
+            if (value.isValid()) {
+                property.write(genearator.get(), value);
             }
         }
 
