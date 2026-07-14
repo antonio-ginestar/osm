@@ -15,9 +15,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.7
-import QtQuick.Controls 1.4 //SplitView needs exactly 1.4
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
 
 Item {
     id: chartsLayout
@@ -28,7 +27,10 @@ Item {
     }
 
     function autoHeight() {
-        first.height = second.height = third.height = chartsLayout.height / count;
+        const chartHeight = chartsLayout.height / count;
+        first.SplitView.preferredHeight = chartHeight;
+        second.SplitView.preferredHeight = chartHeight;
+        third.SplitView.preferredHeight = chartHeight;
     }
 
     function updateCount() {
@@ -40,15 +42,13 @@ Item {
         id: sv
         anchors.fill: parent
         orientation: Qt.Vertical
-        readonly property int minimunHeight: 100
+        readonly property int minimumChartHeight: 100
 
          Chart {
              id: first
-             Layout.fillWidth: true
-             Layout.minimumHeight: sv.minimunHeight
-             Layout.preferredWidth: parent.width
-             Layout.fillHeight: true
-             height: applicationSettings.value("layout/charts/1/height")
+             SplitView.minimumHeight: sv.minimumChartHeight
+             SplitView.preferredHeight: applicationSettings.value("layout/charts/1/height", chartsLayout.height)
+             SplitView.fillHeight: true
              onHeightChanged: applicationSettings.setValue("layout/charts/1/height", height)
              type: applicationSettings.value("layout/charts/1/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/1/type", type)
@@ -61,10 +61,8 @@ Item {
          Chart {
              id: second
              visible: chartsLayout.count > 1
-             Layout.fillWidth: true
-             Layout.minimumHeight: sv.minimunHeight
-             Layout.preferredWidth: parent.width
-             height: applicationSettings.value("layout/charts/2/height")
+             SplitView.minimumHeight: sv.minimumChartHeight
+             SplitView.preferredHeight: applicationSettings.value("layout/charts/2/height", chartsLayout.height / 2)
              onHeightChanged: applicationSettings.setValue("layout/charts/2/height", height)
              type: applicationSettings.value("layout/charts/2/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/2/type", type)
@@ -77,10 +75,8 @@ Item {
          Chart {
              id: third
              visible: chartsLayout.count > 2
-             Layout.fillWidth: true
-             Layout.minimumHeight: sv.minimunHeight
-             Layout.preferredWidth: parent.width
-             height: applicationSettings.value("layout/charts/3/height")
+             SplitView.minimumHeight: sv.minimumChartHeight
+             SplitView.preferredHeight: applicationSettings.value("layout/charts/3/height", chartsLayout.height / 3)
              onHeightChanged: applicationSettings.setValue("layout/charts/3/height", height)
              type: applicationSettings.value("layout/charts/3/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/3/type", type)
@@ -91,17 +87,20 @@ Item {
          }
 
          SystemPalette { id: pal }
-         handleDelegate: Rectangle {
-             width: 1
-             height: 1
+         handle: Rectangle {
+             implicitWidth: 1
+             implicitHeight: 5
              color: Qt.darker(pal.window, 1.5)
 
-             MouseArea {
-                 anchors.fill: parent
-                 propagateComposedEvents: true
-                 onDoubleClicked: {
-                     autoHeight();
-                 }
+             Rectangle {
+                 anchors.verticalCenter: parent.verticalCenter
+                 width: parent.width
+                 height: 1
+                 color: parent.color
+             }
+
+             TapHandler {
+                 onDoubleTapped: autoHeight()
              }
          }
      }

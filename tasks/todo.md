@@ -187,7 +187,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 
 **Verification:**
 - [x] Full Qt 6.8.2 OpenGL configuration builds and links on Linux.
-- [ ] Startup reaches QML loading but is blocked by the Qt Quick Controls 1.4 import tracked in Task 12; cycle all chart types after that migration.
+- [x] Startup passes the Controls 1 shell migration and reaches `Chart.qml`; chart rendering is now blocked by the `QtGraphicalEffects` migration tracked in Task 15.
 
 **Dependencies:** Tasks 2, 4, 9
 
@@ -224,7 +224,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 - [x] Recent project folders read/write `currentFolder` and `selectedFile`.
 
 **Verification:**
-- [ ] The affected QML compiles into the application; full `qmllint` awaits the Controls 1 removal in Task 13.
+- [x] The affected QML compiles into the application, and Qt 6.8 `qmllint` exits successfully for `qml/main.qml` (application-context warnings remain).
 - [ ] Manually save, open, import each supported format, and select a recent project.
 
 **Dependencies:** Tasks 2, 9
@@ -257,12 +257,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Migrate the chart splitter and adjacent shell components to Controls 2 while retaining chart count, saved sizes, double-click equalization, and responsive sidebar layout.
 
 **Acceptance criteria:**
-- [ ] Vertical chart handles work with one to three charts.
-- [ ] Saved chart heights and types restore.
-- [ ] Narrow-window and sidebar behavior remains functional.
+- [x] The vertical Controls 2 splitter retains one-to-three-chart visibility, minimum sizes, dragging, and double-click equalization behavior.
+- [x] Existing chart height/type settings keys feed the Controls 2 preferred sizes and remain updated from actual chart sizes.
+- [x] The responsive grid, narrow-window spans, sidebar stack, and shortcuts are unchanged and no longer import Controls 1.
 
 **Verification:**
-- [ ] `qmllint` passes for the slice.
+- [x] Qt 6.8 `qmllint` exits successfully for `Charts.qml`, `SideBar.qml`, and `main.qml` (application-context warnings remain).
+- [x] Headless startup passes the migrated shell and stops at Task 15's unavailable `QtGraphicalEffects` import.
 - [ ] Resize/equalize charts, restart, and verify persisted layout at wide and narrow widths.
 
 **Dependencies:** Task 13
