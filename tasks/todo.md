@@ -68,11 +68,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Acceptance criteria:**
 - [ ] OpenGL defines `GRAPH_OPENGL` and compiles only OpenGL renderer sources.
 - [ ] Metal defines `GRAPH_METAL`, compiles Objective-C++ sources and `.metal` shaders, and is rejected on non-macOS hosts.
-- [ ] Exactly one backend is selected.
+- [x] Exactly one backend is selected.
 
 **Verification:**
-- [ ] Configure OpenGL on each host.
+- [x] Configured OpenGL on Linux and verified CMake source parity with the qmake renderer lists; macOS/Windows remain pending.
 - [ ] Configure Metal on macOS and confirm the metallib build dependency.
+
+**Current evidence:** Linux emits only `GRAPH_OPENGL` and rejects `OSM_GRAPH_BACKEND=METAL`. The first renderer compilation reaches the expected Qt 6 header incompatibility assigned to Task 10 (`QtGui/QOpenGLFramebufferObject` moved out of Qt Gui).
 
 **Dependencies:** Task 1
 

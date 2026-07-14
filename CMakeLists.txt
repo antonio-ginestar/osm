@@ -46,6 +46,8 @@ target_sources(OpenSoundMeter PRIVATE
 include(qml/CMakeLists.txt)
 include(cmake/AudioBackends.cmake)
 osm_configure_audio_backend(OpenSoundMeter)
+include(cmake/RenderBackends.cmake)
+osm_configure_render_backend(OpenSoundMeter)
 
 execute_process(
     COMMAND git describe --tags --always
