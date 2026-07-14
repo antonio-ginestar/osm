@@ -15,10 +15,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 Popup {
     id: popup
@@ -44,7 +44,7 @@ Popup {
                 id:text
                 horizontalAlignment: Text.AlignHCenter
                 textFormat: Text.RichText
-                text: qsTr("
+                text: qsTr(`
                     <style>
                     td {padding:2px;}
                     th {padding-top:20px;}
@@ -87,7 +87,7 @@ Popup {
                     <tr><td>F2</td><td>show info</td></tr>
                     <tr><td>F3</td><td>check for update</td></tr>
                     </table>
-                ").arg((Qt.platform.os == "osx" ? "⌘" : "Ctrl"));
+                `).arg((Qt.platform.os == "osx" ? "⌘" : "Ctrl"));
             }
 
             ScrollIndicator.vertical: ScrollIndicator {}

@@ -415,11 +415,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert shell overlays and popups to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] Versionless imports resolve under Qt 6.8.
-- [ ] Messages, confirmations, shortcuts, and custom checkbox behavior remain unchanged.
+- [x] Versionless imports resolve under Qt 6.8.
+- [x] Messages, confirmations, shortcuts, and custom checkbox behavior remain unchanged; multiline translated text uses non-deprecated template literals.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for all five files without compatibility/deprecation findings.
+- [x] The full application builds and all three tests pass.
 - [ ] Trigger each popup/overlay in both themes.
 
 **Dependencies:** Task 21

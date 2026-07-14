@@ -15,10 +15,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.0
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 Popup {
     id: popup
@@ -62,11 +62,11 @@ Popup {
                 var JsonObject = JSON.parse(o.responseText);
                 if (JsonObject.tag_name && JsonObject.tag_name !== appVersion) {
 
-                    update.text = qsTr("
+                    update.text = qsTr(`
                         Your version (%3) is different then the latest release.<br/>
                         <br/>
                         Click <a href=\"%2\" style=\"color:%4\">here</a> to download %1.
-                    ")
+                    `)
                         .arg(JsonObject.tag_name)
                         .arg(JsonObject.html_url)
                         .arg(appVersion)
@@ -80,9 +80,9 @@ Popup {
                 }
             } catch (e) {
                 update.text = qsTr(
-                            "Error happend while checking.<br />
+                            `Error happend while checking.<br />
                             Check your internet connection
-                ");
+                `);
             }
         });
     }
