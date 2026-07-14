@@ -201,11 +201,11 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 
 **Acceptance criteria:**
 - [ ] Metal sources and metallib compile with Qt 6.8/Xcode.
-- [ ] Backend selection and texture handling use Qt 6-supported interfaces.
-- [ ] OpenGL remains unchanged and green.
+- [x] Backend selection uses `setGraphicsApi()` and native textures use `QSGMetalTexture::fromNative()`.
+- [x] The full OpenGL build and test suite remain green after the Metal source changes.
 
 **Verification:**
-- [ ] Build and run `OSM_GRAPH_BACKEND=METAL` on macOS.
+- [ ] Build and run `OSM_GRAPH_BACKEND=METAL` on macOS; unavailable on the current Linux host.
 - [ ] Exercise all chart types and compare data/interaction behavior with OpenGL.
 
 **Dependencies:** Task 10

@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(logger::messageHandler);
 
 #ifdef GRAPH_METAL
-    QQuickWindow::setSceneGraphBackend(Chart::SeriesNode::chooseRhi());
+    QQuickWindow::setGraphicsApi(Chart::SeriesNode::chooseRhi());
 #elif defined(GRAPH_OPENGL)
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL);

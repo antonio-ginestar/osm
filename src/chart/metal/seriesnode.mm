@@ -84,12 +84,12 @@ SeriesNode::~SeriesNode()
     [id_cast(MTLDevice, m_device) release];
 }
 
-QSGRendererInterface::GraphicsApi SeriesNode::m_backend = QSGRendererInterface::MetalRhi;
+QSGRendererInterface::GraphicsApi SeriesNode::m_backend = QSGRendererInterface::Metal;
 
 QSGRendererInterface::GraphicsApi SeriesNode::chooseRhi()
 {
 #ifdef FORCE_OPENGL_RHI
-    m_backend = QSGRendererInterface::OpenGLRhi;
+    m_backend = QSGRendererInterface::OpenGL;
     qDebug() << "force OpenGL chosen";
 
     return m_backend;
@@ -98,14 +98,14 @@ QSGRendererInterface::GraphicsApi SeriesNode::chooseRhi()
     auto device = MTLCreateSystemDefaultDevice();
     if (@available(macOS 10.15, ios 13.0, *)) {
         if ([device supportsFamily:MTLGPUFamilyApple3]) {
-            m_backend = QSGRendererInterface::MetalRhi;
+            m_backend = QSGRendererInterface::Metal;
             qDebug() << "Metal chosen";
             [device release];
             return m_backend;
         }
 
         if ([device supportsFamily:MTLGPUFamilyMac2]) {
-            m_backend = QSGRendererInterface::MetalRhi;
+            m_backend = QSGRendererInterface::Metal;
             qDebug() << "Metal chosen";
             [device release];
             return m_backend;
@@ -113,7 +113,7 @@ QSGRendererInterface::GraphicsApi SeriesNode::chooseRhi()
     }
 
 
-    m_backend = QSGRendererInterface::OpenGLRhi;
+    m_backend = QSGRendererInterface::OpenGL;
     qDebug() << "OpenGL chosen";
     [device release];
     return m_backend;
@@ -177,7 +177,7 @@ void SeriesNode::init()
     m_texture = [id_cast(MTLDevice, m_device) newTextureWithDescriptor: descriptor];
     [descriptor release];
 
-    if (m_backend == QSGRendererInterface::OpenGLRhi) {
+    if (m_backend == QSGRendererInterface::OpenGL) {
         m_buffer = [
                        id_cast(MTLDevice, m_device)
                        newBufferWithLength: width() * height() * 4
@@ -189,13 +189,10 @@ void SeriesNode::init()
         setTexture(m_glTexture);
     }
 
-    if (m_backend == QSGRendererInterface::MetalRhi) {
-        QSGTexture *wrapper = m_window->createTextureFromNativeObject(
-                                  QQuickWindow::NativeObjectTexture,
-                                  &m_texture,
-                                  0,
-                                  m_size, {QQuickWindow::TextureHasAlphaChannel}
-                              );
+    if (m_backend == QSGRendererInterface::Metal) {
+        QSGTexture *wrapper = QNativeInterface::QSGMetalTexture::fromNative(
+                                  id_cast(MTLTexture, m_texture), m_window, m_size,
+                                  {QQuickWindow::TextureHasAlphaChannel});
         setTexture(wrapper);
     }
 
@@ -348,10 +345,10 @@ void SeriesNode::render()
     }
 
     switch (m_backend) {
-    case QSGRendererInterface::MetalRhi:
+    case QSGRendererInterface::Metal:
         [id_cast(MTLCommandBuffer, m_commandBuffer) commit];
         break;
-    case QSGRendererInterface::OpenGLRhi: {
+    case QSGRendererInterface::OpenGL: {
         auto blitEncoder = [id_cast(MTLCommandBuffer, m_commandBuffer) blitCommandEncoder];
 
         [blitEncoder copyFromTexture: id_cast(MTLTexture, m_texture)

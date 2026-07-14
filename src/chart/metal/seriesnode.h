@@ -105,7 +105,7 @@ private:
     //! MTLTexture
     void *m_texture;
 
-    //! QSGTexture for OpenGLRhi
+    //! QSGTexture for the OpenGL backend
     QSGTexture *m_glTexture;
 
     //! MTLBuffer for translation from m_texture to m_byteArray
