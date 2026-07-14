@@ -39,7 +39,9 @@ void MeterTableModel::resize()
                     cell->setSource(sourceList()->firstSource());
                 }
                 if (m_settings) {
-                    cell->setSettings(m_settings->getSubGroup(QString("/") + r + "/" + c));
+                    cell->setSettings(m_settings->getSubGroup(
+                                          QString("/") + QChar(static_cast<ushort>(r))
+                                          + "/" + QChar(static_cast<ushort>(c))));
                 }
             }
             c++;
@@ -73,7 +75,9 @@ void MeterTableModel::setSettings(Settings *newSettings)
         int c = 0;
         for (auto &cell : row) {
             if (cell) {
-                cell->setSettings(m_settings->getSubGroup(QString("/") + r + "/" + c));
+                cell->setSettings(m_settings->getSubGroup(
+                                      QString("/") + QChar(static_cast<ushort>(r))
+                                      + "/" + QChar(static_cast<ushort>(c))));
             }
             c++;
         }

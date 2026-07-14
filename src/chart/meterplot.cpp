@@ -317,7 +317,7 @@ void MeterPlot::updateThreshold()
 
 void MeterPlot::resetSource()
 {
-    setSource(nullptr);
+    setSource({});
 }
 
 void MeterPlot::sourceReadyRead()
@@ -380,7 +380,7 @@ void MeterPlot::setType(const Type &type)
 
 void MeterPlot::setType(const QString &type)
 {
-    std::find_if(m_typesMap.cbegin(), m_typesMap.cend(),
+    (void) std::find_if(m_typesMap.cbegin(), m_typesMap.cend(),
     [&type, this](auto & e) {
         if (e.second == type) {
             setType(e.first);

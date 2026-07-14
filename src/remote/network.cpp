@@ -122,9 +122,9 @@ void Network::newTCPConnection()
             clientConnection->write(header.data(), header.size());
 
             auto data_ptr = answer.data_ptr()->data();
-            int sent = 0, len;
+            qsizetype sent = 0;
             while (sent < answer.size() && clientConnection->isWritable()) {
-                len = std::min(answer.size() - sent, 32767);
+                const auto len = std::min(answer.size() - sent, qsizetype {32767});
                 clientConnection->write(data_ptr + sent, len);
                 sent += len;
             }
