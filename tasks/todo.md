@@ -26,13 +26,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Define the application QML module with `qt_add_qml_module()` and attach fonts, images, audio, and shaders without prematurely rewriting runtime URLs.
 
 **Acceptance criteria:**
-- [ ] All QML files are declared to the CMake target.
-- [ ] Existing `qrc:/...` references resolve or receive a documented minimal source update.
-- [ ] QML lint targets are generated.
+- [x] All QML files are declared to the CMake target.
+- [x] Existing `qrc:/...` references resolve or receive a documented minimal source update.
+- [x] QML lint targets are generated.
 
 **Verification:**
-- [ ] Build the resource/QML targets.
-- [ ] Inspect generated resources or run a startup probe when compilation succeeds.
+- [x] Generated the QML resource manifest and the application autogen target with Qt 6.8.2.
+- [x] Verified `:/main.qml`, `:/Calculator.qml`, the historical `:/Plot/ImpulseProperties.qml` alias, and representative font/audio/image/shader mappings.
 
 **Dependencies:** Task 1
 

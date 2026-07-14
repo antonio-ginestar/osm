@@ -5,6 +5,7 @@ project(OpenSoundMeter LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS
     Core
@@ -14,6 +15,7 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS
     Qml
     Quick
     QuickControls2
+    QuickDialogs2
     Widgets
 )
 
@@ -33,6 +35,15 @@ endif()
 qt_add_executable(OpenSoundMeter
     ${OSM_APPLICATION_SOURCES}
 )
+
+target_sources(OpenSoundMeter PRIVATE
+    audio/noises.qrc
+    fonts/fonts.qrc
+    images.qrc
+    shaders/shaders.qrc
+)
+
+include(qml/CMakeLists.txt)
 
 execute_process(
     COMMAND git describe --tags --always
@@ -70,5 +81,6 @@ target_link_libraries(OpenSoundMeter PRIVATE
     Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
+    Qt6::QuickDialogs2
     Qt6::Widgets
 )

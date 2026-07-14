@@ -42,7 +42,7 @@ CMake application target
 ### Phase 1: Build Foundation
 
 - [x] Task 1: Add the Qt 6.8 CMake application target and source inventory.
-- [ ] Task 2: Add the QML module and preserve application resource URLs.
+- [x] Task 2: Add the QML module and preserve application resource URLs.
 - [ ] Task 3: Port Linux, macOS, and Windows native audio selection to CMake.
 - [ ] Task 4: Port OpenGL and optional Metal build selection to CMake.
 - [ ] Task 5: Add CTest, Qt Test, QML lint, install, and deployment foundations.
