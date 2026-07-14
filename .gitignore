@@ -83,3 +83,13 @@ PVS-Studio.cfg
 *.PVS-Studio.cfg
 .pvsconfig
 pvs.log*
+
+# CMake build trees and generated files
+/build*/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/compile_commands.json
+
+# Local dependency installer output
+/aqtinstall.log
