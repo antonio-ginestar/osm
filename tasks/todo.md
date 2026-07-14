@@ -300,11 +300,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Port the first bounded group of plot property components to Dialogs 2 and versionless Qt imports.
 
 **Acceptance criteria:**
-- [ ] Dialog selection and property bindings remain unchanged.
-- [ ] No versioned Qt or Dialogs 1 imports remain in the batch.
+- [x] Each PNG save action retains its existing plot grab and URL-normalization callback while using Dialogs 2 `selectedFile`.
+- [x] No versioned Qt or Dialogs 1 imports remain in the batch.
 
 **Verification:**
-- [ ] `qmllint` passes for the four files.
+- [x] Qt 6.8 `qmllint` exits successfully for all four files.
+- [x] The full application builds, all three tests pass, and a clean-settings headless smoke run remains alive.
 - [ ] Open and change representative properties for each plot.
 
 **Dependencies:** Task 15
