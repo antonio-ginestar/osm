@@ -472,11 +472,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Convert the remaining reusable controls to versionless Qt 6 imports.
 
 **Acceptance criteria:**
-- [ ] Controls retain selection, spin, and combo behavior.
-- [ ] Versionless imports resolve under Qt 6.8.
+- [x] Selection, spin, and combo behavior is unchanged; empty tooltips now use an explicit false visibility value.
+- [x] Versionless imports resolve under Qt 6.8.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for the three files plus the shared channel-selector tooltip fix.
+- [x] The full application builds and all three tests pass.
 - [ ] Exercise each element through its consuming property panel.
 
 **Dependencies:** Task 24

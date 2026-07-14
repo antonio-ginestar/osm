@@ -15,14 +15,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.7
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 
 DropDown {
     property string title : ""
     property string tooltip : ""
 
     displayText: (title ? title + ": " : "") + currentText
-    ToolTip.visible: (tooltip ? hovered : none)
+    ToolTip.visible: tooltip ? hovered : false
     ToolTip.text: tooltip
 }

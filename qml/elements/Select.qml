@@ -15,8 +15,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import SourceModel 1.0
 
 DropDown {
@@ -27,7 +27,7 @@ DropDown {
     property string colorRole   : "color"
     property string tooltip : ""
 
-    ToolTip.visible: (tooltip ? hovered : none)
+    ToolTip.visible: tooltip ? hovered : false
     ToolTip.text: tooltip
 
     textRole: "title"

@@ -30,7 +30,7 @@ DropDown {
     textRole: "name"
     valueRole: "name"
 
-    ToolTip.visible: (tooltip ? hovered : none)
+    ToolTip.visible: tooltip ? hovered : false
     ToolTip.text: tooltip
 
     model: GeneratorChannelModel {
