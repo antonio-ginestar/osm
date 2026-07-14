@@ -15,10 +15,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.3
+import QtCore
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
 
 import "../elements"
 import SourceModel 1.0
@@ -180,13 +181,14 @@ Item {
 
             FileDialog {
                 id: fileDialog
-                selectExisting: false
+                fileMode: FileDialog.SaveFile
                 title: "Please choose a file's name"
-                folder: (typeof shortcuts !== 'undefined' ? shortcuts.home : Filesystem.StandardFolder.Home)
+                currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+                nameFilters: ["PNG image (*.png)"]
                 defaultSuffix: "png"
                 onAccepted: {
                     dataObject.parent.grabToImage(function(result) {
-                        result.saveToFile(dataObject.parent.urlForGrab(fileDialog.fileUrl));
+                        result.saveToFile(dataObject.parent.urlForGrab(fileDialog.selectedFile));
                     });
                 }
             }
