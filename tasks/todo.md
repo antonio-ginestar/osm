@@ -574,13 +574,21 @@ macOS and Windows staging/launch verification remains pending on those hosts.
 **Description:** Replace Qt 5/qmake instructions with exact Qt 6.8 configure, build, test, install, and backend-option commands.
 
 **Acceptance criteria:**
-- [ ] README identifies Qt 6.8 LTS and C++17.
-- [ ] Contributor instructions cover all three platforms and optional Metal/ASIO inputs.
-- [ ] Documentation contains no stale supported qmake workflow.
+- [x] README identifies Qt 6.8 LTS and C++17.
+- [x] Contributor instructions cover all three platforms and optional Metal/ASIO inputs.
+- [x] Documentation contains no stale supported qmake workflow.
 
 **Verification:**
-- [ ] Execute documented commands on at least one platform.
-- [ ] Search documentation for stale Qt 5/qmake claims.
+- [x] Execute documented commands on at least one platform.
+- [x] Search documentation for stale Qt 5/qmake claims.
+
+Linux verification (2026-07-15): the documented Release configure, build,
+test, and install sequence completed in a fresh `build-docs-check` tree with
+Qt 6.8.2 and GCC 14.2.0. All three tests passed and the staged executable,
+runtime configuration, desktop entry, and icon were present. This minimal host
+used pre-downloaded ALSA development files through standard CMake search paths.
+The remaining Qt 5/qmake references are historical constraints in the approved
+port specification, not supported build instructions.
 
 **Dependencies:** Task 29
 

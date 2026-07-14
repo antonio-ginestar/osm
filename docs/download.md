@@ -27,7 +27,7 @@ title: Download Open Sound Meter
                     <img class="card-img-top" src="/images/icons/apple-brands.svg" alt="Card image cap" style="max-height: 200px;margin: auto;padding: 50px 0;">
                     <div class="card-body text-center">
                         <h5 class="card-title">macOS</h5>
-                        <p class="card-text">macOS 10.13 - 11.1</p>
+                        <p class="card-text">macOS 12 or newer</p>
                     </div>
                 </a>
                 
@@ -35,15 +35,15 @@ title: Download Open Sound Meter
                     <img class="card-img-top" src="/images/icons/windows-brands.svg" alt="Card image cap" style="max-height: 200px;margin: auto;padding: 50px 0;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Windows</h5>
-                        <p class="card-text">from windows 7</p>
+                        <p class="card-text">Windows 10 (1809+) or Windows 11</p>
                     </div>
                 </a>
                 
-                <a class="card download linux" href="https://github.com/psmokotnin/osm/releases/download/v1.0.1/Open_Sound_Meter-v1.0.1-x86_64.AppImage" target="_blank">
+                <a class="card download linux" href="https://github.com/psmokotnin/osm/releases/tag/{{site.current_version}}" target="_blank">
                     <img class="card-img-top" src="/images/icons/linux-brands.svg" alt="Card image cap" style="max-height: 200px;margin: auto;padding: 50px 0;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Linux</h5>
-                        <p class="card-text">AppImage1</p>
+                        <p class="card-text">See release assets and requirements</p>
                     </div>
                 </a>
             </div>
