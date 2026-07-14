@@ -62,7 +62,7 @@ Shared::Source Group::clone() const
     cloned->setActive(active());
     cloned->setName(name());
     for (auto it = m_sourceList.cbegin(); it != m_sourceList.cend(); ++it) {
-        if (it && *it) {
+        if (*it) {
             auto clonedItem = (*it)->clone();
             cloned->m_sourceList.appendItem(clonedItem, true);
         }

@@ -16,13 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "appearance.h"
+#include <QEvent>
 #include <QGuiApplication>
 #include <QPalette>
 
 Appearance::Appearance(Settings *settings) : QObject(settings)
 {
     auto app = qobject_cast<QGuiApplication *>(QGuiApplication::instance());
-    connect(app, &QGuiApplication::paletteChanged, this, &Appearance::setDarkModeFromSystem);
+    app->installEventFilter(this);
 
     if (
         (!settings->value("darkMode").isValid()) ||
@@ -30,6 +31,15 @@ Appearance::Appearance(Settings *settings) : QObject(settings)
     ) {
         setDarkModeFromSystem();
     }
+}
+
+bool Appearance::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == QGuiApplication::instance()
+        && event->type() == QEvent::ApplicationPaletteChange) {
+        setDarkModeFromSystem();
+    }
+    return QObject::eventFilter(watched, event);
 }
 
 bool Appearance::darkMode() const

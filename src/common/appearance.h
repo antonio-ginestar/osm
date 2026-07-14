@@ -61,6 +61,9 @@ signals:
     void experimentFunctionsChanged(bool);
     void visibilityChanged();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     Settings *settings() const;
     bool darkModeFromSystem() const;
