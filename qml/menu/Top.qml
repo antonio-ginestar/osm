@@ -15,67 +15,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import QtQuick.Controls 1.4
-import QtQml.Models 2.12
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls.Material 2.1
-import OpenSoundMeterModule 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQml.Models
+import QtQuick.Controls.Material
+import OpenSoundMeterModule
 
 MenuBar {
-    id: menuBar;
-    style: MenuBarStyle{
-                background: Rectangle{ color:Material.backgroundColor}
-                itemDelegate: Rectangle {
-                    implicitWidth: menuBarLabel.contentWidth * 1.4
-                    implicitHeight: menuBarLabel.contentHeight * 1.5
-                    color: styleData.selected || styleData.open ? accentColor : backgroundColor
-                    Label {
-                        id:menuBarLabel
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: menuBarLabel.contentHeight/5
-                        color: styleData.selected  || styleData.open ? backgroundColor : foregroundColor
-                        text: formatMnemonic(styleData.text,true)
-                    }
-                }
-                menuStyle: MenuStyle {
-                    frame: Rectangle {
-                        color: backgroundColor
-                        border.width: 0
-                    }
-
-                    //FIXME: Colors doesn't set correctly from Material
-                    itemDelegate {
-                        background: Rectangle {
-                            color:  styleData.selected || styleData.open ? accentColor : backgroundColor
-                            border.width: 0
-                        }
-                        label: Label {
-                            color: styleData.selected ? backgroundColor : foregroundColor
-                            text: formatMnemonic(styleData.text,true)
-                        }
-
-                        submenuIndicator: Text {
-                            text: "\u25ba"
-                            color: styleData.selected  || styleData.open ? accentColor : backgroundColor
-                        }
-
-                        shortcut: Label {
-                            color: styleData.selected ? backgroundColor : foregroundColor
-                            text: styleData.shortcut
-                        }
-
-                        checkmarkIndicator: CheckBox {
-                            checked: styleData.checked
-                        }
-                    }
-                }
-            }
+    id: menuBar
 
     Menu {
         title: qsTr("&File")
-        MenuItem {
+        Action {
             text: qsTr("&New")
             shortcut: StandardKey.New
             onTriggered: {
@@ -94,12 +45,12 @@ MenuBar {
                 applicationWindow.dialog.rejected.disconnect(closeRejected);
             }
         }
-        MenuItem {
+        Action {
             text: qsTr("&Save")
             shortcut: StandardKey.Save
             onTriggered: saveDialog.open();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Open")
             shortcut: StandardKey.Open
             onTriggered: openDialog.open()
@@ -162,54 +113,54 @@ MenuBar {
                 onTriggered: recentFilesModel.clear()
             }
         }
-        MenuItem {
+        Action {
             text: qsTr("&Import")
             shortcut: "Ctrl+I"
             onTriggered: importDialog.open()
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add measurement")
             shortcut: "Ctrl+A"
             onTriggered: sourceList.addMeasurement();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add math source")
             shortcut: "Ctrl+M"
             onTriggered: sourceList.addUnion();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add standard line")
             shortcut: "Ctrl+L"
             onTriggered: sourceList.addStandardLine();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add filter")
             shortcut: "Ctrl+F"
             onTriggered: sourceList.addFilter();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add equalizer")
             shortcut: "Ctrl+E"
             onTriggered: sourceList.addEqualizer();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add windowing")
             shortcut: "Ctrl+W"
             onTriggered: sourceList.addWindowing();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Add Group")
             shortcut: "Ctrl+0"
             onTriggered: sourceList.addGroup();
         }
-        MenuItem {
+        Action {
             text: qsTr("&Show target")
             shortcut: "Ctrl+T"
             checkable: true
             checked: targetTraceModel.show
             onCheckedChanged: targetTraceModel.show = checked
         }
-        MenuItem {
+        Action {
             text: qsTr("Quit")
             shortcut: StandardKey.Quit
             onTriggered: applicationWindow.close();
@@ -217,7 +168,7 @@ MenuBar {
     }
     Menu {
         title: qsTr("&View")
-        MenuItem {
+        Action {
             id: darkModeSelect
             text: qsTr("&Dark Mode")
             shortcut: "Ctrl+D"
@@ -227,7 +178,7 @@ MenuBar {
                 applicationAppearance.darkMode = darkModeSelect.checked;
             }
         }
-        MenuItem {
+        Action {
             id: calculator
             text: qsTr("&Calculator")
             shortcut: "Ctrl+K"
@@ -236,7 +187,7 @@ MenuBar {
                 applicationWindow.properiesbar.open(null, "qrc:/Calculator.qml");
             }
         }
-        MenuItem {
+        Action {
             id: experimentFunctions
             text: qsTr("&Experiment functions")
             checkable: true
@@ -249,18 +200,18 @@ MenuBar {
 
     Menu {
         title: qsTr("&Help")
-        MenuItem {
+        Action {
             text: qsTr("&Shortcuts")
             shortcut: "F1"
             checkable: false
             onTriggered: shortcutsPopup.open();
         }
-        MenuItem {
+        Action {
             text: qsTr("About")
             onTriggered: aboutpopup.open();
             shortcut: "F2"
         }
-        MenuItem {
+        Action {
             text: qsTr("Check for update")
             shortcut: "F3"
             onTriggered: update.show();

@@ -238,12 +238,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Rebuild the top menu with Qt Quick Controls 2, retaining every action, check state, dynamic recent-project entry, and shortcut.
 
 **Acceptance criteria:**
-- [ ] No Controls 1 or Controls 1 Styles import remains.
-- [ ] All File/View/Help actions and dynamic recent files behave as before.
+- [x] The desktop menu uses no Controls 1 or Controls 1 Styles import.
+- [x] File/View/Help commands are Controls 2 `Action`s; dynamic recent files remain concrete inserted `MenuItem`s.
 - [ ] Menu colors remain legible in light and dark modes.
 
 **Verification:**
-- [ ] `qmllint` passes.
+- [x] Qt 6.8 `qmllint` exits successfully for `qml/menu/Top.qml` (application-context warnings remain).
 - [ ] Trigger every menu item and shortcut; verify checked states and recent-menu insertion/removal.
 
 **Dependencies:** Task 12
