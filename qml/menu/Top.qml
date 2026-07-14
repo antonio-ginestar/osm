@@ -115,8 +115,8 @@ MenuBar {
                 onProjectFolderChanged: {
                     let folder = recentFilesModel.projectFolder();
                     if (folder) {
-                        openDialog.folder = folder;
-                        saveDialog.folder = folder;
+                        openDialog.currentFolder = folder;
+                        saveDialog.currentFolder = folder;
                     }
                 }
             }
@@ -131,14 +131,14 @@ MenuBar {
             Connections {
                 target: saveDialog
                 function onAccepted() {
-                    recentFilesModel.storeProjectFolder(saveDialog.fileUrl);
+                    recentFilesModel.storeProjectFolder(saveDialog.selectedFile);
                 }
             }
 
             Connections {
                 target: openDialog
                 function onAccepted() {
-                    recentFilesModel.storeProjectFolder(openDialog.fileUrl);
+                    recentFilesModel.storeProjectFolder(openDialog.selectedFile);
                 }
             }
 

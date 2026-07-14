@@ -219,12 +219,12 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Replace legacy Dialogs 1 properties with Qt Quick Dialogs 2 while preserving create/open/save/import, filters, folders, and recent-file updates.
 
 **Acceptance criteria:**
-- [ ] Save uses `selectedFile` and retains default `.osm` suffix/filter.
-- [ ] Open/import use selected files and preserve filter-index behavior.
-- [ ] Recent project folders continue to update.
+- [x] Save uses `selectedFile`, `FileDialog.SaveFile`, and retains the default `.osm` suffix/filter.
+- [x] Open/import use `selectedFile`; import uses `selectedNameFilter.index`.
+- [x] Recent project folders read/write `currentFolder` and `selectedFile`.
 
 **Verification:**
-- [ ] `qmllint` passes for affected files.
+- [ ] The affected QML compiles into the application; full `qmllint` awaits the Controls 1 removal in Task 13.
 - [ ] Manually save, open, import each supported format, and select a recent project.
 
 **Dependencies:** Tasks 2, 9

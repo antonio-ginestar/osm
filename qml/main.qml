@@ -16,12 +16,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import QtQuick 2.7
+import QtCore
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs
 import SourceModel 1.0
 import OpenSoundMeter 1.0
 
@@ -174,24 +175,24 @@ ApplicationWindow {
 
     FileDialog {
         id: saveDialog
-        selectExisting: false
+        fileMode: FileDialog.SaveFile
         title: qsTr("Please choose a file's name")
-        folder: (typeof shortcuts !== 'undefined' ? shortcuts.home : Filesystem.StandardFolder.Home)
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
         defaultSuffix: "osm"
         nameFilters: ["Open Sound Meter (*.osm)"]
-        onAccepted: sourceList.save(saveDialog.fileUrl);
+        onAccepted: sourceList.save(saveDialog.selectedFile);
     }
 
     FileDialog {
         id: openDialog
-        selectExisting: true
+        fileMode: FileDialog.OpenFile
         title: qsTr("Please choose a file's name")
-        folder: (typeof shortcuts !== 'undefined' ? shortcuts.home : Filesystem.StandardFolder.Home)
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
         defaultSuffix: "osm"
         nameFilters: ["Open Sound Meter (*.osm)"]
         onAccepted: function() {
             applicationWindow.properiesbar.clear();
-            if (!sourceList.load(openDialog.fileUrl)) {
+            if (!sourceList.load(openDialog.selectedFile)) {
                 message.showError(qsTr("could not open the file"));
             }
         }
@@ -199,9 +200,9 @@ ApplicationWindow {
 
     FileDialog {
         id: importDialog
-        selectExisting: true
+        fileMode: FileDialog.OpenFile
         title: qsTr("Please choose a file's name")
-        folder: (typeof shortcuts !== 'undefined' ? shortcuts.home : Filesystem.StandardFolder.Home)
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
         defaultSuffix: "txt"
         nameFilters: [
             "txt transfer data file (*.txt *.cal)",
@@ -212,7 +213,7 @@ ApplicationWindow {
         ]
         onAccepted: function() {
             applicationWindow.properiesbar.clear();
-            if (!sourceList.import(importDialog.fileUrl, nameFilters.indexOf(selectedNameFilter))) {
+            if (!sourceList.import(importDialog.selectedFile, selectedNameFilter.index)) {
                 message.showError(qsTr("could not open the file"));
             }
         }
