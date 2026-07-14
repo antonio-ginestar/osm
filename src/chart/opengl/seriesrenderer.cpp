@@ -17,7 +17,10 @@
  */
 #include "seriesrenderer.h"
 
+#include <cfloat>
+#include <QQuickOpenGLUtils>
 #include <QQuickWindow>
+#include <QOpenGLVersionFunctionsFactory>
 #include "seriesfbo.h"
 #include "../plot.h"
 #include "common/profiler.h"
@@ -51,7 +54,8 @@ QOpenGLFramebufferObject *SeriesRenderer::createFramebufferObject(const QSize &s
         m_openGLFunctions->initializeOpenGLFunctions();
 
 #if !defined(QT_NO_OPENGL) && !defined(QT_OPENGL_ES_2)
-        m_openGL33CoreFunctions = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_3_3_Core>();
+        m_openGL33CoreFunctions =
+            QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(QOpenGLContext::currentContext());
 #endif
         if (m_openGL33CoreFunctions) {
             m_openGL33CoreFunctions->initializeOpenGLFunctions();
@@ -179,7 +183,6 @@ void SeriesRenderer::render()
         return;
     }
 
-    auto plot = static_cast<Chart::Plot *>(m_item->parent());
     if (!m_program.isLinked()) {
         qDebug() << QString("shader not setted or linked");
         return;
@@ -215,7 +218,7 @@ void SeriesRenderer::render()
     }
 
     m_program.release();
-    plot->window()->resetOpenGLState();
+    QQuickOpenGLUtils::resetOpenGLState();
 }
 void SeriesRenderer::setWeight(unsigned int weight)
 {

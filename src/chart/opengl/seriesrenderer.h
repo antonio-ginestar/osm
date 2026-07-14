@@ -20,8 +20,8 @@
 
 #include <QQuickFramebufferObject>
 #include <QOpenGLShaderProgram>
-#include <QtGui/QOpenGLFramebufferObject>
-#include <QtGui/QOpenGLFunctions>
+#include <QOpenGLFramebufferObject>
+#include <QOpenGLFunctions>
 #include <QOpenGLFunctions_3_3_Core>
 
 #include "abstract/source.h"

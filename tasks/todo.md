@@ -181,13 +181,13 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 **Description:** Update application backend selection and framebuffer renderer state handling to Qt 6 APIs while preserving all chart renderers.
 
 **Acceptance criteria:**
-- [ ] OpenGL backend initializes through supported Qt 6 APIs.
-- [ ] Renderer state is restored using the documented Qt 6 mechanism.
+- [x] OpenGL backend is selected through `QQuickWindow::setGraphicsApi()`.
+- [x] Renderer state is restored through `QQuickOpenGLUtils::resetOpenGLState()`.
 - [ ] Every chart type renders without shader or context errors.
 
 **Verification:**
-- [ ] Build the OpenGL configuration.
-- [ ] Run startup smoke check, then manually cycle through all chart types.
+- [x] Full Qt 6.8.2 OpenGL configuration builds and links on Linux.
+- [ ] Startup reaches QML loading but is blocked by the Qt Quick Controls 1.4 import tracked in Task 12; cycle all chart types after that migration.
 
 **Dependencies:** Tasks 2, 4, 9
 
