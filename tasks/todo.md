@@ -603,10 +603,27 @@ port specification, not supported build instructions.
 **Acceptance criteria:**
 - [ ] ALSA devices enumerate and representative input/output streams start.
 - [ ] All UI, project, chart, remote, settings, and shutdown workflows pass.
-- [ ] Installed application launches outside the build tree.
+- [x] Installed application launches outside the build tree.
 
 **Verification:**
-- [ ] Record exact commands, Qt/compiler versions, test results, and any hardware-limited checks below this task.
+- [x] Record exact commands, Qt/compiler versions, test results, and any hardware-limited checks below this task.
+
+Linux verification (2026-07-15): Qt 6.8.2, CMake 3.31.6, GCC 14.2.0.
+`qt-cmake -S . -B build-docs-check -DCMAKE_BUILD_TYPE=Release
+-DOSM_GRAPH_BACKEND=OPENGL`, `cmake --build build-docs-check --parallel 2`,
+and `ctest --test-dir build-docs-check --output-on-failure` completed; all
+three tests passed. `cmake --build build-docs-check --target all_qmllint
+--parallel 2` completed with existing static-analysis warnings but no removed
+Qt module imports. `cmake --install build-docs-check --prefix
+/tmp/osm-doc-stage` completed and the staged executable launched outside the
+build tree with clean settings, remaining alive until the 10-second timeout.
+The startup log contained no missing QML module or component-load error.
+
+Hardware limitation: `/dev/snd` exposes only the ALSA timer and no capture or
+playback devices, so device enumeration and real input/output streams cannot be
+verified here. The application reports the missing default device as expected.
+Hands-on menu, chart, project, remote, settings, and shutdown workflows remain
+pending on an interactive Linux workstation with audio hardware.
 
 **Dependencies:** Tasks 29-30
 
