@@ -108,8 +108,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<SourceModel>("SourceModel", 1, 0, "SourceModel");
     qmlRegisterUncreatableType<SourceList>("SourceModel", 1, 0, "SourceList",
                                            QStringLiteral("SourceList should not be created in QML"));
-    qmlRegisterUncreatableType<Shared::Source>("OpenSoundMeter", 1, 0, "SourceShared",
-                                               QStringLiteral("SourceShared should not be created in QML"));
+    qmlRegisterAnonymousType<Shared::Source>("OpenSoundMeter", 1);
     qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
     qmlRegisterType<Appearance>("OpenSoundMeter", 1, 0, "Appearance");
     qmlRegisterType<Notifier>("OpenSoundMeter", 1, 0, "Notifier");

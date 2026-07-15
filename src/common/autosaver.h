@@ -20,7 +20,7 @@
 
 #include <QTimer>
 #include <QThread>
-#include <QtQml>
+#include <QUrl>
 
 class SourceList;
 class Settings;
@@ -28,7 +28,6 @@ class Settings;
 class AutoSaver : public QObject
 {
     Q_OBJECT
-    QML_ELEMENT
     const QString FILE_KEY = "filename";
 
 public:
