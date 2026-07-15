@@ -1,6 +1,14 @@
 set(OSM_GRAPH_BACKEND "OPENGL" CACHE STRING "Chart renderer: OPENGL or METAL")
 set_property(CACHE OSM_GRAPH_BACKEND PROPERTY STRINGS OPENGL METAL)
 
+string(TOUPPER "${OSM_GRAPH_BACKEND}" osm_graph_backend)
+if(osm_graph_backend STREQUAL "METAL")
+    if(NOT APPLE)
+        message(FATAL_ERROR "OSM_GRAPH_BACKEND=METAL is supported only on macOS")
+    endif()
+    enable_language(OBJCXX)
+endif()
+
 function(osm_configure_render_backend target)
     string(TOUPPER "${OSM_GRAPH_BACKEND}" graph_backend)
 
@@ -44,11 +52,6 @@ function(osm_configure_render_backend target)
             src/chart/opengl/xyseriesrenderer.h
         )
     elseif(graph_backend STREQUAL "METAL")
-        if(NOT APPLE)
-            message(FATAL_ERROR "OSM_GRAPH_BACKEND=METAL is supported only on macOS")
-        endif()
-
-        enable_language(OBJCXX)
         message(STATUS "Open Sound Meter chart backend: Metal")
         find_library(OSM_METAL_FRAMEWORK Metal REQUIRED)
         find_program(OSM_XCRUN_EXECUTABLE xcrun REQUIRED)

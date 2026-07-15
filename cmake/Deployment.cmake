@@ -1,3 +1,7 @@
+if(WIN32)
+    enable_language(RC)
+endif()
+
 function(osm_configure_deployment target)
     if(APPLE)
         set_source_files_properties("${PROJECT_SOURCE_DIR}/icons/white.icns"
