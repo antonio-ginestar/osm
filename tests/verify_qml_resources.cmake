@@ -21,6 +21,16 @@ foreach(required_alias IN ITEMS
     endif()
 endforeach()
 
+file(GLOB_RECURSE qml_source_files "${QML_SOURCE_DIRECTORY}/*.qml")
+foreach(qml_source_file IN LISTS qml_source_files)
+    file(READ "${qml_source_file}" qml_source)
+    if(qml_source MATCHES "qt-project\\.org/imports/QtQuick/Controls\\.2")
+        message(FATAL_ERROR
+            "QML source uses the removed Qt 5 Controls.2 resource path: ${qml_source_file}"
+        )
+    endif()
+endforeach()
+
 set(qml_module_manifest "${QML_MODULE_DIRECTORY}/qmldir")
 if(NOT EXISTS "${qml_module_manifest}")
     message(FATAL_ERROR "QML module manifest was not generated")

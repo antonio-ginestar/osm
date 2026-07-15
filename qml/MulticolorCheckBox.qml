@@ -51,7 +51,7 @@ CheckBox {
         z: 3
         width: 14
         height: 14
-        source: "qrc:/qt-project.org/imports/QtQuick/Controls.2/Material/images/check.png"
+        source: "qrc:/qt-project.org/imports/QtQuick/Controls/Material/images/check.png"
         fillMode: Image.PreserveAspectFit
 
         scale: control.checkState === Qt.Checked ? 1 : 0
