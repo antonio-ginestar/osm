@@ -654,12 +654,87 @@ pending on an interactive Linux workstation with audio hardware.
 **Description:** Build and exercise the Qt 6.8 Windows configuration, including WASAPI and optional ASIO when supplied.
 
 **Acceptance criteria:**
-- [ ] WASAPI devices enumerate and representative streams start.
-- [ ] Deployed application launches with required Qt/QML plugins.
+- [x] WASAPI devices enumerate and representative streams start.
+- [x] Deployed application launches with required Qt/QML plugins.
 - [ ] ASIO compiles and enumerates when a valid SDK is supplied, or remains explicitly pending.
 
 **Verification:**
-- [ ] Record exact commands, Qt/compiler versions, test results, and ASIO availability below this task.
+- [x] Record exact commands, Qt/compiler versions, test results, and ASIO availability below this task.
+
+Windows verification (2026-10-07): Windows x64 build 10.0.26300, Visual Studio
+2022 Community 17.14.13, MSVC 19.44.35215, Windows SDK 10.0.26100.0,
+CMake 3.31.6-msvc6, and Qt 6.8.3 `msvc2022_64`. The existing system Qt
+installation was 5.15.2, so Qt 6.8.3 was installed locally under the ignored
+`build-windows-tools/Qt` directory using aqtinstall 3.3.0:
+
+```powershell
+python -m venv build-windows-tools/venv
+& ./build-windows-tools/venv/Scripts/python.exe -m pip install aqtinstall
+& ./build-windows-tools/venv/Scripts/python.exe -m aqt install-qt `
+    windows desktop 6.8.3 win64_msvc2022_64 `
+    --outputdir build-windows-tools/Qt `
+    --archives qtbase qtdeclarative qtshadertools qtsvg qttools qttranslations
+```
+
+The local `build-windows-tools/run-tool.py` helper selects Visual Studio's
+bundled CMake tools, adds the local Qt kit to the child process PATH, and
+normalizes environment variable names. Normalization avoids an inherited
+`PATH`/`Path` duplicate that otherwise prevents MSBuild from invoking CL.exe.
+The completed commands on this checkout were:
+
+```powershell
+python build-windows-tools/run-tool.py cmake --fresh -S . -B build-windows `
+    -G "Visual Studio 17 2022" -A x64 `
+    -DCMAKE_PREFIX_PATH=C:/Users/Dev/Documents/MyWork/osm/build-windows-tools/Qt/6.8.3/msvc2022_64 `
+    -DOSM_GRAPH_BACKEND=OPENGL
+python build-windows-tools/run-tool.py cmake -S . -B build-windows -DCMAKE_CXX_FLAGS=/MP4
+python build-windows-tools/run-tool.py cmake --build build-windows --config Debug --parallel 4
+python build-windows-tools/run-tool.py ctest --test-dir build-windows -C Debug --output-on-failure
+python build-windows-tools/run-tool.py cmake --build build-windows --config Debug --target all_qmllint --parallel 4
+python build-windows-tools/run-tool.py cmake --install build-windows --config Debug `
+    --prefix C:/Users/Dev/Documents/MyWork/osm/build-windows/stage
+```
+
+Results: the Debug build and all three CTest tests passed. The `all_qmllint`
+target passed with existing application-context/type and unqualified-access
+warnings. The Windows build required `NOMINMAX` to prevent WASAPI headers
+from breaking chart methods in the combined moc source. Qualifying the
+measurement error binding also prevents MSBuild from misinterpreting a
+qmllint diagnostic's printed `error:` property as a build error. Recent-file
+Instantiator handlers now declare their parameters explicitly, eliminating
+the startup deprecation warning.
+
+The staged executable is `build-windows/stage/bin/OpenSoundMeter.exe`.
+Installation must use an absolute prefix: the relative prefix attempt failed
+in Qt's deployment helper when writing `qt.conf`. Deployment completed with
+the absolute prefix. The installed app launched from the staging directory
+with only Windows system directories on PATH and no development QML/plugin
+path overrides. It stayed alive and responsive for 10 seconds, created a
+native window, and initialized a hardware OpenGL 4.6 context on the NVIDIA
+GeForce RTX 5070. No missing QML module, component-load, or shader error was
+logged. Existing settings and autosave files were backed up and restored
+after the startup checks.
+
+A local hardware probe in `build-windows-tools/audio-smoke` compiled the
+repository's WASAPI implementation and enumerated three active endpoints:
+two monitor outputs and the OBSBOT Meet 2 microphone. It completed two
+capture and two silent playback open/transfer/close cycles, transferring
+more than 560 KB per cycle. Captured samples were counted, not saved.
+The hardware probe required execution outside the tool sandbox.
+
+Remaining findings: the saved generator device ID refers to a device that
+is no longer present; select a current output during interactive testing.
+Startup reported two recursive Qt Quick Layouts rearrangement warnings.
+The audio probe and app startup also reported `QIODevice` access after
+close; stream shutdown behavior needs follow-up. These warnings were not
+counted as clean runtime verification. Interactive project save/open/import,
+menus, all chart types, generator controls, remote behavior, and graceful
+shutdown still need hands-on verification. ASIO was not enabled because no
+external SDK was supplied; ASIO verification remains pending.
+
+Local logs and probe sources are retained in the ignored `build-windows`
+and `build-windows-tools` directories. This verification covered Debug on
+this development machine, not Release redistribution to a clean machine.
 
 **Dependencies:** Task 32
 
