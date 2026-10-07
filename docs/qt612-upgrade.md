@@ -66,12 +66,52 @@ extracted XCB runtime packages. XCB libraries remain system dependencies of the
 staged application. The host has no audio device, so the startup check does not
 verify audio capture/playback or hardware rendering performance.
 
-Windows MSVC/WASAPI/ASIO and macOS CoreAudio/OpenGL/Metal builds remain pending.
+macOS CoreAudio/OpenGL/Metal builds and Windows ASIO validation remain pending.
 Interactive audio, chart, file-dialog, project, and remote-control workflows
 still need hands-on verification before a release.
 
 The original [Qt 6.8 port specification](qt6-port-spec.md) and migration
 checklists retain historical build versions and results.
+
+### Windows validation
+
+Windows validation on 2026-10-07 used the official Qt 6.12.0
+`msvc2022_64` kit, MSVC 19.44.35215, Windows SDK 10.0.26100.0, and
+CMake 3.31.6-msvc6. The kit was installed locally under
+`build-windows-tools/Qt/6.12.0`, including TaskTree and ShaderTools.
+The local build, audio, and layout helpers were updated to use this kit.
+The previous Qt 6.8.3 kit and running application were retained.
+
+The fresh Visual Studio x64 build directory is `build-windows-qt612`, configured
+with `OSM_GRAPH_BACKEND=OPENGL`, the new kit as `CMAKE_PREFIX_PATH`, and `/MP4`:
+
+```powershell
+python build-windows-tools/run-tool.py cmake --build build-windows-qt612 --config Debug --parallel 4
+python build-windows-tools/run-tool.py ctest --test-dir build-windows-qt612 -C Debug --output-on-failure
+python build-windows-tools/run-tool.py cmake --build build-windows-qt612 --config Debug --target all_qmllint --parallel 4
+python build-windows-tools/run-tool.py cmake --install build-windows-qt612 --config Debug `
+    --prefix C:/Users/Dev/Documents/MyWork/osm/build-windows-qt612/stage
+```
+
+- The application build and all four CTest tests passed. Test logs identify
+  QtTest and Qt as version 6.12.0.
+- `all_qmllint` passed with existing static-analysis warnings.
+- Deployment succeeded; the deployed Qt Core DLL reports version 6.12.0.0.
+  The executable is `build-windows-qt612/stage/bin/OpenSoundMeter.exe`.
+- A local probe compiling the repository's WASAPI backend enumerated three
+  active devices and passed two capture and two silent playback cycles.
+  Captured samples were counted without being saved. The existing
+  `QIODevice` access-after-close warnings remain.
+- The local layout probe linked against the new application objects, used
+  isolated settings, and ran with the deployed DLLs/plugins and only Windows
+  system directories on PATH. It exited successfully, rendered at 3439x1366,
+  1024x768, and 768x540, and initialized hardware OpenGL 4.6 on the RTX 5070.
+  The two existing `About.qml` recursive layout warnings remain.
+
+Logs and local probe sources are retained in the ignored build/tools directories.
+This checks Debug on the development machine; Release redistribution and ASIO
+remain unverified. No application source changes were needed for this Windows
+Qt kit update.
 
 ## Sources
 
