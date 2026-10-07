@@ -1,5 +1,9 @@
 # Spec: Qt 6.8 LTS Port
 
+This specification records the original Qt 5 to Qt 6.8 migration. The current
+build requires Qt 6.12.0; see the [upgrade notes](qt612-upgrade.md) and
+[contributor instructions](../CONTRIBUTING.md) for current prerequisites.
+
 ## Objective
 
 Port Open Sound Meter from Qt 5.15/qmake to a Qt 6.8 LTS-only CMake build for Linux, macOS, and Windows. Preserve existing desktop workflows, project/session compatibility, remote-control behavior, audio-device behavior, and chart behavior. Keep visual changes minimal, while allowing controls and native dialogs to follow Qt 6 platform rendering where exact Qt 5 rendering is unavailable.

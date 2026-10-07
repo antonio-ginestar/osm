@@ -4,7 +4,7 @@ Cross-platform, real-time sound measurement software for tuning audio systems.
 
 **Supported systems:** macOS, Windows, Linux
 
-This checkout uses Qt 6.8 and CMake. The application version is derived from
+This checkout uses Qt 6.12.0 and CMake. The application version is derived from
 `git describe --tags --always` when configuring the build.
 
 [Project page](https://opensoundmeter.com/) ·
@@ -25,10 +25,14 @@ This checkout uses Qt 6.8 and CMake. The application version is derived from
 
 ## Building
 
-Open Sound Meter uses Qt 6.8 LTS, a C++17 compiler, and CMake 3.21 or newer.
+Open Sound Meter uses Qt 6.12.0 LTS, a C++17 compiler, and CMake 3.25 or newer.
 Install a desktop Qt kit with Core, Gui, Network, OpenGL, QML, Quick, Quick
 Controls, Quick Dialogs, Test, and Widgets. Use CMake as the build entry point;
 the legacy qmake files remain while migration validation is completed.
+
+When upgrading from Qt 6.8, configure a fresh build directory with the Qt 6.12.0
+kit to avoid cached paths to the previous installation. See the
+[Qt 6.12 upgrade notes](docs/qt612-upgrade.md) for prerequisites and validation.
 
 | Platform | Native audio backend | Chart renderer |
 | --- | --- | --- |
@@ -38,12 +42,12 @@ the legacy qmake files remain while migration validation is completed.
 
 ### Linux
 
-Install Qt 6.8, OpenGL development files, and the ALSA development package
+Install Qt 6.12, OpenGL development files, and the ALSA development package
 (`libasound2-dev` on Debian-derived distributions). Replace the Qt path below
 with your installed kit:
 
 ```sh
-/path/to/Qt/6.8.x/gcc_64/bin/qt-cmake -S . -B build \
+/path/to/Qt/6.12.0/gcc_64/bin/qt-cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --parallel
@@ -58,7 +62,7 @@ Use a Qt kit matching your compiler and run these commands from its developer
 shell. This example uses MSVC 2022 and a multi-configuration generator:
 
 ```powershell
-C:\Qt\6.8.x\msvc2022_64\bin\qt-cmake.bat -S . -B build `
+C:\Qt\6.12.0\msvc2022_64\bin\qt-cmake.bat -S . -B build `
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --config Release --parallel
 ctest --test-dir build -C Release --output-on-failure
@@ -68,16 +72,17 @@ cmake --install build --config Release --prefix "$PWD/stage"
 
 The install step deploys the Qt DLLs, plugins, and QML modules. Run the staged
 executable; the executable in `build/Release` needs the Qt development environment
-to run. Use an absolute install prefix as shown above because Qt 6.8's deployment
-script requires it. Keep the entire staging folder when copying the application.
+to run. Use an absolute install prefix as shown above for the Qt deployment
+script. Keep the entire staging folder when copying the application.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for platform-specific prerequisites,
 macOS Metal and Windows ASIO options, debug builds, testing, and installation.
 
 ## Development checks
 
-CTest covers the QML resource manifest, remote JSON value conversion, and
-settings persistence. Tests are enabled by default through `BUILD_TESTING`.
+CTest covers the QML resource manifest, remote JSON value conversion,
+settings persistence, and compressed TCP responses. Tests are enabled by
+default through `BUILD_TESTING`.
 Run QML static checks with:
 
 ```sh

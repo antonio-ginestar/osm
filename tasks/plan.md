@@ -1,5 +1,8 @@
 # Implementation Plan: Qt 6.8 LTS Port
 
+This plan records the original migration. Current build prerequisites and
+Qt 6.12.0 validation are documented in the [upgrade notes](../docs/qt612-upgrade.md).
+
 ## Overview
 
 Replace the Qt 5.15/qmake build with a Qt 6.8 LTS CMake build while preserving Open Sound Meter's Linux, macOS, and Windows behavior. The migration proceeds risk-first: prove the modern build and QML resource model, restore native audio and rendering, migrate removed C++ and QML APIs in small workflow slices, then verify all target platforms before retiring qmake.

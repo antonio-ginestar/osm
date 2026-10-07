@@ -99,7 +99,7 @@ function(osm_configure_render_backend target)
         add_custom_command(
             OUTPUT "${metal_library}"
             COMMAND "${OSM_XCRUN_EXECUTABLE}" -sdk macosx metal
-                -mmacosx-version-min=12.0
+                "-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}"
                 -std=macos-metal1.0
                 -c "${metal_source}"
                 -o "${metal_air}"

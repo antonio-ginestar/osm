@@ -1,25 +1,28 @@
 # Contributing to Open Sound Meter
 
-Open Sound Meter is a Qt 6.8 LTS desktop application built as C++17 with CMake
-3.21 or newer. Install the Qt modules selected by the desktop Qt installer;
+Open Sound Meter is a Qt 6.12.0 LTS desktop application built as C++17 with CMake
+3.25 or newer. Install the Qt modules selected by the desktop Qt installer;
 the project requires Core, Gui, Network, OpenGL, QML, Quick, Quick Controls,
 Quick Dialogs, Test, and Widgets.
 
-See Qt's [supported platform matrix](https://doc.qt.io/qt-6.8/supported-platforms.html)
-for the maintained Qt 6.8 operating systems and toolchains. Installation uses
-Qt's [CMake deployment API](https://doc.qt.io/qt-6.8/cmake-deployment.html).
+See Qt's [supported platform matrix](https://doc.qt.io/qt-6.12/supported-platforms.html)
+for the maintained Qt 6.12 operating systems and toolchains. Installation uses
+Qt's [CMake deployment API](https://doc.qt.io/qt-6.12/cmake-deployment.html).
 
 Keep generated build trees outside source control. The examples below use a
 separate `build` directory and install into a separate `stage` directory.
+Use a fresh build directory when switching Qt kits; an existing CMake cache can
+retain paths to Qt 6.8. See the [upgrade notes](docs/qt612-upgrade.md) for the
+Qt 6.12.0 validation status.
 
 ## Linux
 
-Install a C++17 compiler, CMake, Ninja or Make, Qt 6.8, OpenGL development
+Install a C++17 compiler, CMake, Ninja or Make, Qt 6.12, OpenGL development
 files, and ALSA development files. On Debian-derived distributions, the native
 audio dependency is provided by `libasound2-dev`.
 
 ```sh
-/path/to/Qt/6.8.x/gcc_64/bin/qt-cmake -S . -B build \
+/path/to/Qt/6.12.0/gcc_64/bin/qt-cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Debug \
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --parallel
@@ -35,11 +38,11 @@ dependencies.
 
 ## macOS
 
-Qt 6.8 supports macOS 12 or newer and requires Xcode 15 or newer. OpenGL is the
+Qt 6.12 supports macOS 14.4 or newer and requires Xcode 16 or newer. OpenGL is the
 default chart backend:
 
 ```sh
-/path/to/Qt/6.8.x/macos/bin/qt-cmake -S . -B build \
+/path/to/Qt/6.12.0/macos/bin/qt-cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Debug \
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --parallel
@@ -50,7 +53,7 @@ cmake --install build --prefix stage
 To build the optional Metal chart renderer, use a separate build tree:
 
 ```sh
-/path/to/Qt/6.8.x/macos/bin/qt-cmake -S . -B build-metal \
+/path/to/Qt/6.12.0/macos/bin/qt-cmake -S . -B build-metal \
     -DCMAKE_BUILD_TYPE=Debug \
     -DOSM_GRAPH_BACKEND=METAL
 cmake --build build-metal --parallel
@@ -65,11 +68,11 @@ release-environment inputs and are not stored in this repository.
 
 ## Windows
 
-Qt 6.8 supports Windows 10 version 1809 or newer and Windows 11. Use a Qt 6.8
-kit matching MSVC 2022 or MinGW-w64 13.1. From a matching developer shell:
+Qt 6.12 supports Windows 10 version 1809 or newer and Windows 11. Use a Qt 6.12
+kit matching MSVC 2022 or MinGW-w64 15.1. From a matching developer shell:
 
 ```powershell
-C:\Qt\6.8.x\msvc2022_64\bin\qt-cmake.bat -S . -B build `
+C:\Qt\6.12.0\msvc2022_64\bin\qt-cmake.bat -S . -B build `
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --config Debug --parallel
 ctest --test-dir build -C Debug --output-on-failure
@@ -80,7 +83,7 @@ WASAPI is always enabled on Windows. To add the optional ASIO backend, obtain
 the ASIO SDK separately and pass its root directory at configure time:
 
 ```powershell
-C:\Qt\6.8.x\msvc2022_64\bin\qt-cmake.bat -S . -B build-asio `
+C:\Qt\6.12.0\msvc2022_64\bin\qt-cmake.bat -S . -B build-asio `
     -DOSM_GRAPH_BACKEND=OPENGL `
     -DOSM_ASIO_SDK=C:\path\to\asiosdk
 cmake --build build-asio --config Debug --parallel
@@ -92,7 +95,7 @@ Do not commit the ASIO SDK. The staged executable and deployed runtime are
 placed below `stage` or `stage-asio`, and the executable contains the Windows
 application icon.
 
-Use an absolute install prefix: Qt 6.8's deployment script requires it. The
+Use an absolute install prefix for the Qt deployment script. The
 install step copies Qt DLLs, plugins, and QML modules into the staging folder.
 Run `stage/bin/OpenSoundMeter.exe` after installation, and copy the entire staging
 folder when moving the application to another location. Building alone leaves

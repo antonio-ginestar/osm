@@ -33,3 +33,15 @@ target_link_libraries(settings_test PRIVATE
     Qt6::Test
 )
 add_test(NAME settings_test COMMAND settings_test)
+
+qt_add_executable(remote_network_test
+    remote_network_test.cpp
+    "${PROJECT_SOURCE_DIR}/src/remote/network.cpp"
+    "${PROJECT_SOURCE_DIR}/src/remote/network.h"
+    "${PROJECT_SOURCE_DIR}/src/remote/tcpreciever.cpp"
+    "${PROJECT_SOURCE_DIR}/src/remote/tcpreciever.h"
+)
+target_include_directories(remote_network_test PRIVATE "${PROJECT_SOURCE_DIR}/src")
+target_link_libraries(remote_network_test PRIVATE Qt6::Network Qt6::Test)
+add_test(NAME remote_network_test COMMAND remote_network_test)
+set_tests_properties(remote_network_test PROPERTIES TIMEOUT 20)
