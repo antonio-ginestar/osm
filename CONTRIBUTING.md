@@ -73,7 +73,7 @@ C:\Qt\6.8.x\msvc2022_64\bin\qt-cmake.bat -S . -B build `
     -DOSM_GRAPH_BACKEND=OPENGL
 cmake --build build --config Debug --parallel
 ctest --test-dir build -C Debug --output-on-failure
-cmake --install build --config Debug --prefix stage
+cmake --install build --config Debug --prefix "$PWD/stage"
 ```
 
 WASAPI is always enabled on Windows. To add the optional ASIO backend, obtain
@@ -85,12 +85,18 @@ C:\Qt\6.8.x\msvc2022_64\bin\qt-cmake.bat -S . -B build-asio `
     -DOSM_ASIO_SDK=C:\path\to\asiosdk
 cmake --build build-asio --config Debug --parallel
 ctest --test-dir build-asio -C Debug --output-on-failure
-cmake --install build-asio --config Debug --prefix stage-asio
+cmake --install build-asio --config Debug --prefix "$PWD/stage-asio"
 ```
 
 Do not commit the ASIO SDK. The staged executable and deployed runtime are
 placed below `stage` or `stage-asio`, and the executable contains the Windows
 application icon.
+
+Use an absolute install prefix: Qt 6.8's deployment script requires it. The
+install step copies Qt DLLs, plugins, and QML modules into the staging folder.
+Run `stage/bin/OpenSoundMeter.exe` after installation, and copy the entire staging
+folder when moving the application to another location. Building alone leaves
+the executable dependent on the Qt development environment.
 
 ## Release builds and checks
 
