@@ -99,8 +99,8 @@ MenuBar {
                     text: model.fileName
                     onTriggered: sourceList.load(model.url)
                 }
-                onObjectAdded: recentFilesMenu.insertItem(index, object);
-                onObjectRemoved: recentFilesMenu.removeItem(object)
+                onObjectAdded: function(index, object) { recentFilesMenu.insertItem(index, object); }
+                onObjectRemoved: function(index, object) { recentFilesMenu.removeItem(object); }
             }
 
             MenuSeparator {
