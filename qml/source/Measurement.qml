@@ -46,7 +46,7 @@ Item {
                 if (dataModel && dataModelData)
                     dataModelData.active = checked
             }
-            error: (dataModelData ? dataModelData.error : false)
+            error: (measurement.dataModelData ? measurement.dataModelData.error : false)
         }
 
         ColumnLayout {
