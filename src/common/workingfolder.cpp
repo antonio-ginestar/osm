@@ -42,7 +42,8 @@ QString workingfolder::settingsFilePath()
 
 QString workingfolder::commonPath()
 {
-    auto static path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    // Qt 5 DataLocation used the local data directory on Windows.
+    auto static path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
     if ( path.indexOf(QCoreApplication::applicationName()) == -1) {
         path += "/" + QCoreApplication::applicationName();
