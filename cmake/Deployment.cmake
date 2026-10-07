@@ -8,6 +8,13 @@ function(osm_configure_deployment target)
             PROPERTIES MACOSX_PACKAGE_LOCATION Resources
         )
         target_sources(${target} PRIVATE "${PROJECT_SOURCE_DIR}/icons/white.icns")
+        get_target_property(metal_library ${target} OSM_METAL_LIBRARY)
+        if(metal_library)
+            set_source_files_properties("${metal_library}"
+                PROPERTIES MACOSX_PACKAGE_LOCATION Resources
+            )
+            target_sources(${target} PRIVATE "${metal_library}")
+        endif()
         set_target_properties(${target} PROPERTIES
             MACOSX_BUNDLE TRUE
             MACOSX_BUNDLE_ICON_FILE white.icns
