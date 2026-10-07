@@ -1,6 +1,9 @@
 function(osm_configure_audio_backend target)
     if(WIN32)
         message(STATUS "Open Sound Meter audio backend: WASAPI")
+        # WASAPI includes Windows headers, including in the combined moc source.
+        # Keep their min/max macros from colliding with chart methods.
+        target_compile_definitions(${target} PRIVATE NOMINMAX)
         target_sources(${target} PRIVATE
             src/audio/plugins/wasapi.cpp
             src/audio/plugins/wasapi.h
