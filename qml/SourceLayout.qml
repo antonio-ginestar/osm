@@ -35,7 +35,7 @@ ListView {
     Component {
         id: measurementDelegate
         SourceItem.Measurement {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -43,7 +43,7 @@ ListView {
     Component {
         id: storedDelegate
         SourceItem.Stored {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -51,7 +51,7 @@ ListView {
     Component {
         id: unionDelegate
         SourceItem.Union {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -59,7 +59,7 @@ ListView {
     Component {
         id: standardLineDelegate
         SourceItem.StandardLine {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -67,7 +67,7 @@ ListView {
     Component {
         id: filterDelegate
         SourceItem.Filter {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -75,7 +75,7 @@ ListView {
     Component {
         id: equalizerDelegate
         SourceItem.Equalizer {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -83,7 +83,7 @@ ListView {
     Component {
         id: windowingDelegate
         SourceItem.WindowingDelegate {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -91,7 +91,7 @@ ListView {
     Component {
         id: groupDelegate
         SourceItem.Group {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -100,7 +100,7 @@ ListView {
     Component {
         id: remoteItemDelegate
         SourceItem.RemoteItem {
-            width: sideList.width
+            width: parent ? parent.width : 0
             dataModel: modelData
             highlight: modelHighlight
         }
@@ -204,7 +204,8 @@ ListView {
             Item {
                 id: content
                 anchors { left: parent.left; right: parent.right }
-                height: loaded.height
+                height: Math.max(loaded.height, deleteButton.implicitHeight,
+                                 cloneButton.visible ? cloneButton.implicitHeight : 0)
                 Drag.active: dragArea.held
                 Drag.source: dragArea
                 Drag.hotSpot.x: width / 2
@@ -212,6 +213,8 @@ ListView {
 
                 Loader {
                     id: loaded
+                    width: content.width - deleteButton.width
+                           - (cloneButton.visible ? cloneButton.width + spacer.width : 0)
                     property var modelData: dragArea.source
                     property bool modelHighlight: index == sideList.currentIndex
                     sourceComponent: {
@@ -250,7 +253,7 @@ ListView {
                     font.family: "Osm"
                     text: "\uf24d"
                     anchors.right: spacer.left
-                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.verticalCenter
                     flat: true
                     font.pixelSize: 14
                     rightPadding: 4
@@ -280,7 +283,7 @@ ListView {
                     font.family: "Osm"
                     text: "\ue801"
                     anchors.right: parent.right
-                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.verticalCenter
                     flat: true
                     font.pixelSize: 14
                     rightPadding: 4
@@ -310,14 +313,14 @@ ListView {
                 ToolTip {
                     text: "delete source"
                     visible: deleteButton.hovered
-                    y: bottomPadding - deleteButton.height
+                    y: deleteButton.y + bottomPadding - deleteButton.height
                     x: content.width - rightPadding - availableWidth - leftMargin - rightMargin
                 }
 
                 ToolTip {
                     text: "clone source"
                     visible: cloneButton.hovered
-                    y: bottomPadding - cloneButton.height
+                    y: cloneButton.y + bottomPadding - cloneButton.height
                     x: content.width - rightPadding - availableWidth - leftMargin - rightMargin
                 }
             }

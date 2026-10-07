@@ -28,10 +28,12 @@ Item {
     property bool chartable : true;
     property bool highlight : false;
     property string propertiesQml: "qrc:/source/MeasurementProperties.qml"
-    height: 50
+    implicitHeight: sourceRow.implicitHeight
+    height: Math.max(50, implicitHeight)
     width: (parent ? parent.width : 0)
 
     RowLayout {
+        id: sourceRow
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.rightMargin: 10
@@ -55,6 +57,7 @@ Item {
             Label {
                 Layout.fillWidth: true
                 font.bold: highlight
+                wrapMode: Text.Wrap
                 text:  (dataModelData ? dataModelData.name : "")
             }
 

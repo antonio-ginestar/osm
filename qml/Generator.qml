@@ -27,16 +27,19 @@ Item {
     property var currentGenerator : (remoteClient.controlledGenerator && remoteClient.controlledGenerator.data ? remoteClient.controlledGenerator.data : generatorModel)
 
 
-    height: remoteControlled ? 40 : 57
+    implicitWidth: generatorLayout.implicitWidth + generatorLayout.anchors.rightMargin
+    implicitHeight: generatorLayout.implicitHeight
+    height: implicitHeight
     width: parent.width
 
     ColumnLayout {
+        id: generatorLayout
         anchors.fill: parent
         anchors.rightMargin: 10
 
         RowLayout {
             spacing: 0
-            Layout.preferredHeight: 40
+            Layout.fillWidth: true
 
             Switch {
                 id: onoff
@@ -83,7 +86,6 @@ Item {
                 indicators: false
                 background: false
 
-                width: 45
                 bottomPadding: 8
                 fontSize: label.font.pixelSize
 

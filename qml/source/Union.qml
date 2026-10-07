@@ -26,10 +26,12 @@ Item {
     property bool chartable : true;
     property bool highlight : false;
     property string propertiesQml: "qrc:/source/UnionProperties.qml"
-    height: 50
+    implicitHeight: sourceRow.implicitHeight
+    height: Math.max(50, implicitHeight)
     width: parent.width
 
     RowLayout {
+        id: sourceRow
         width: parent.width
 
         MulticolorCheckBox {
@@ -52,6 +54,7 @@ Item {
             Label {
                 Layout.fillWidth: true
                 font.bold: highlight
+                wrapMode: Text.Wrap
                 text:  (dataModel && dataModelData ? dataModelData.name : "")
             }
 

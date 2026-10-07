@@ -23,14 +23,21 @@ TextField {
 
     placeholderText: qsTr("title")
     text: target.data.name
+    onTextChanged: {
+        if (!activeFocus) {
+            cursorPosition = 0;
+        }
+    }
     onTextEdited: target.data.name = text
     ToolTip.visible: hovered
-    ToolTip.text: qsTr("title")
+    ToolTip.text: text || qsTr("title")
 
     selectByMouse: true
     onFocusChanged: {
         if (focus) {
             selectAll();
+        } else {
+            cursorPosition = 0;
         }
     }
     onEditingFinished: {

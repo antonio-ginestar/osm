@@ -32,13 +32,12 @@ Item {
     property bool editable: true
     property bool indicators: true
     property bool background: true
-    property int implicitWidth: 120
-    property int fontSize: spinbox.font.pixelSize
-    property int bottomPadding: spinbox.bottomPadding
+    implicitWidth: spinbox.implicitWidth
+    implicitHeight: spinbox.implicitHeight
+    property alias fontSize: spinbox.font.pixelSize
+    property alias bottomPadding: spinbox.bottomPadding
 
     property string units: ""
-    width: spinbox.width
-    height: spinbox.height
 
     onValueChanged: {
         spinbox.updateValue();
@@ -54,10 +53,7 @@ Item {
     SelectableSpinBox {
         id: spinbox
         property bool completed: false
-        implicitWidth: floatspinbox.implicitWidth
         anchors.fill: parent
-        font.pixelSize: fontSize
-        bottomPadding: floatspinbox.bottomPadding
 
         /*
         value changes before a component is completed while applying limits (from and to)
@@ -70,7 +66,7 @@ Item {
             //if indicators is true use default value
             if (!indicators) {
                 down.indicator.width = 0;
-                up.indicator.height = 0;
+                up.indicator.width = 0;
                 spacing = 0;
             }
             if (!floatspinbox.background) {

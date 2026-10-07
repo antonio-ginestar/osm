@@ -126,13 +126,13 @@ ApplicationWindow {
             id: righttab
             Layout.fillHeight: true
             Layout.rowSpan: applicationWindow.narrowWindow ? 1 : 2
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: Math.max(200, implicitWidth)
         }
 
         //Properties area
         PropetiesBar {
             id: bottomtab
-            Layout.preferredHeight: 120
+            Layout.preferredHeight: implicitHeight
             Layout.fillWidth: true
             Layout.columnSpan: applicationWindow.narrowWindow ? 2 : 1
         }

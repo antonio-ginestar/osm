@@ -26,22 +26,38 @@ import OpenSoundMeter 1.0
 import "qrc:/elements"
 
 Item {
+    id: storedProperties
     property var dataObject
     property var dataObjectData : dataObject.data
     property string saveas: "osm"
+    readonly property real notesWidth: {
+        var naturalWidth = notesMetrics.advanceWidth(ta.placeholderText);
+        var lines = ta.text.split("\n");
+        for (var i = 0; i < lines.length; ++i) {
+            naturalWidth = Math.max(naturalWidth, notesMetrics.advanceWidth(lines[i]));
+        }
+        return naturalWidth + ta.leftPadding + ta.rightPadding + scrollTextArea.effectiveScrollBarWidth;
+    }
 
-    RowLayout
+    implicitHeight: propertiesLayout.implicitHeight
+
+    GridLayout
     {
+        id: propertiesLayout
         anchors.fill: parent
+        columns: width >= controls.implicitWidth + scrollTextArea.Layout.minimumWidth + columnSpacing ? 2 : 1
 
         ColumnLayout {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            id: controls
+            Layout.alignment: Qt.AlignTop
+            Layout.minimumWidth: implicitWidth
+            Layout.fillWidth: propertiesLayout.columns === 1
+            Layout.maximumWidth: propertiesLayout.columns === 2 ? implicitWidth : Infinity
 
             RowLayout {
+                Layout.fillWidth: true
                 FloatSpinBox {
                     id: gainSpinBox
-                    implicitWidth: 170
                     value: dataObjectData.gain
                     from: -30
                     to: 30
@@ -53,7 +69,6 @@ Item {
 
                 FloatSpinBox {
                     id: delaySpinBox
-                    implicitWidth: 170
                     value: dataObjectData.delay
                     from: -100
                     to: 100
@@ -79,9 +94,23 @@ Item {
                 }
 
                 NameField {
-                    Layout.preferredWidth: 130
+                    id: nameField
+                    clip: true
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: implicitWidth
+                    Layout.preferredWidth: Math.min(
+                        Math.max(implicitWidth, nameMetrics.advanceWidth + leftPadding + rightPadding),
+                        Math.max(implicitWidth, storedProperties.width - gainSpinBox.implicitWidth
+                                 - delaySpinBox.implicitWidth - colorPicker.Layout.preferredWidth
+                                 - 2 * colorPicker.Layout.margins - 3 * parent.spacing))
                     target: dataObject
                     Layout.alignment: Qt.AlignVCenter
+                }
+
+                TextMetrics {
+                    id: nameMetrics
+                    font: nameField.font
+                    text: nameField.text
                 }
             }
             RowLayout {
@@ -123,9 +152,19 @@ Item {
                 }
 
                 DropDown {
+                    id: saveData
+                    readonly property TextInput labelInput: contentItem as TextInput
                     displayText: qsTr("Save data as");
+                    Layout.minimumWidth: Math.ceil(Math.max(saveLabelMetrics.advanceWidth, labelInput ? labelInput.contentWidth : 0))
+                                         + leftPadding + rightPadding
+                                         + (labelInput ? labelInput.leftPadding + labelInput.rightPadding : 0)
 
-                    implicitWidth: 170
+                    TextMetrics {
+                        id: saveLabelMetrics
+                        font: saveData.font
+                        text: saveData.displayText
+                    }
+
                     model: ["osm", "cal", "txt", "csv", "frd", "wav"]
 
                     onActivated: function() {
@@ -146,29 +185,30 @@ Item {
             id: scrollTextArea
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.minimumWidth: Math.min(storedProperties.width, storedProperties.notesWidth)
+            Layout.minimumHeight: notesMetrics.lineSpacing * 4 + ta.topPadding + ta.bottomPadding
+                                  + ta.topInset + ta.bottomInset
+            Layout.preferredHeight: Layout.minimumHeight
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn
             ScrollBar.vertical.interactive: false
 
             TextArea {
                 id:ta
-                padding: 5
                 placeholderText: qsTr("notes")
                 text: dataObjectData.notes;
                 onTextChanged: dataObjectData.notes = text;
                 font.italic: true
                 wrapMode: TextEdit.WrapAnywhere
                 selectByMouse: true
-                background: Rectangle{
-                    height: scrollTextArea.height
-                    width:  scrollTextArea.width
-                    border.color: ta.activeFocus ? ta.Material.accentColor : ta.Material.hintTextColor
-                    border.width: ta.activeFocus ? 2 : 1
-                    color: "transparent"
-                }
                 Keys.onEscapePressed: {
                     focus = false;
                 }
             }
+        }
+
+        FontMetrics {
+            id: notesMetrics
+            font: ta.font
         }
     }
 

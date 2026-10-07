@@ -22,6 +22,11 @@ Item {
     property alias stack: propertiesStack
     property var currentObject : null
     property var currentQml : null
+    // StackView sizes its page to the viewport; use the page's natural size
+    // rather than feeding that assigned height back into the outer layout.
+    implicitHeight: Math.max(120, (propertiesStack.currentItem
+                                  ? propertiesStack.currentItem.implicitHeight : 0)
+                             + 2 * propertiesStack.anchors.margins)
 
     StackView {
         id: propertiesStack

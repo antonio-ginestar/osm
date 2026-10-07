@@ -38,12 +38,14 @@ import "source"
 Item {
     property Item list : sideList
     property int colorIndex: 6;
+    implicitWidth: Math.max(header.implicitWidth, generator.implicitWidth)
 
     ColumnLayout {
         anchors.fill: parent
         spacing: 5
 
         RowLayout {
+            id: header
             Layout.alignment: Qt.AlignHCenter
             DropDown {
                 id: chartsCount
@@ -83,7 +85,10 @@ Item {
             }
         }
 
-        Generator {}
+        Generator {
+            id: generator
+            Layout.fillWidth: true
+        }
 
         TargetTrace {
             visible: targetTraceModel.show
@@ -216,7 +221,7 @@ Item {
 
             MouseArea {
                 Layout.alignment: Qt.AlignCenter
-                Layout.preferredHeight: aboutButton.height + aboutButton.topPadding + aboutButton.bottomPadding
+                Layout.preferredHeight: aboutContents.implicitHeight
                 Layout.fillWidth: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
@@ -224,6 +229,7 @@ Item {
                 }
 
                 RowLayout {
+                    id: aboutContents
                     spacing: 0
                     anchors.fill: parent
                     Layout.alignment: Qt.AlignCenter
@@ -263,7 +269,6 @@ Item {
                         topPadding: 8
                         font.pointSize: 11
                         Material.foreground: Material.Indigo
-                        height: 48
                     }
 
                     Item {
