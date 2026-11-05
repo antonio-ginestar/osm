@@ -826,9 +826,10 @@ retains its font-directory warning. Native visual checks at 1200x900 and
 768x540 show the content correctly contained and no About layout warning.
 Probe sources, screenshots (including the scrolled small view), and logs are
 under `build-windows-tools/about-layout`. The updated application is staged at
-`build-windows-qt612/stage-about-fix/bin/OpenSoundMeter.exe`; user confirmation
-of the About dialog remains pending. Audio access-after-close investigation
-remains open and is separate from this layout fix.
+`build-windows-qt612/stage-about-fix/bin/OpenSoundMeter.exe`. On 2026-11-06,
+the user confirmed the small-window About content scrolls inside the dialog and
+the close button works. Audio access-after-close investigation remains open
+and is separate from this layout fix.
 
 **Dependencies:** Task 32
 
