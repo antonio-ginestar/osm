@@ -45,3 +45,21 @@ target_include_directories(remote_network_test PRIVATE "${PROJECT_SOURCE_DIR}/sr
 target_link_libraries(remote_network_test PRIVATE Qt6::Network Qt6::Test)
 add_test(NAME remote_network_test COMMAND remote_network_test)
 set_tests_properties(remote_network_test PROPERTIES TIMEOUT 20)
+
+qt_add_executable(charts_layout_test
+    charts_layout_test.cpp
+    "${PROJECT_SOURCE_DIR}/src/common/settings.cpp"
+    "${PROJECT_SOURCE_DIR}/src/common/settings.h"
+    "${PROJECT_SOURCE_DIR}/src/common/workingfolder.cpp"
+    "${PROJECT_SOURCE_DIR}/src/common/workingfolder.h"
+)
+target_include_directories(charts_layout_test PRIVATE "${PROJECT_SOURCE_DIR}/src")
+target_compile_definitions(charts_layout_test PRIVATE
+    OSM_CHARTS_QML_FILE="${PROJECT_SOURCE_DIR}/qml/Charts.qml"
+)
+target_link_libraries(charts_layout_test PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Test)
+add_test(NAME charts_layout_test COMMAND charts_layout_test)
+set_tests_properties(charts_layout_test PROPERTIES
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
+    TIMEOUT 30
+)

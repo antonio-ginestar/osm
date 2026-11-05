@@ -269,6 +269,31 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 - [x] A clean first-run settings directory now starts without typed-property `undefined` assignment errors.
 - [ ] Resize/equalize charts, restart, and verify persisted layout at wide and narrow widths.
 
+Windows follow-up (2026-11-05): interactive testing confirmed chart switching,
+splitter dragging, and window resizing, but restarting a three-chart layout
+collapsed the lower panes to their minimum heights. `Charts.qml` was saving
+transient startup heights before the splitter finished laying out its children.
+It now saves `SplitView.preferredHeight` changes, preserving user sizes through
+startup and constrained window layouts, as described by the
+[Qt SplitView sizing documentation](https://doc.qt.io/qt-6.12/qml-qtquick-controls-splitview.html).
+The `charts_layout_test` regression uses the production `Charts.qml` with an
+inert chart delegate and isolated settings; it covers two/three panes, real
+handle dragging, temporary window constraints, and QML-engine recreation.
+The regression failed before the fix and passes after it. Interactive restart
+verification of the rebuilt application remains pending.
+
+Fix verification: the Qt 6.12 Windows Debug application build and all five
+CTest tests pass; `all_qmllint` passes with the existing application-context and
+type warnings. An isolated native probe linked to the rebuilt application
+objects retained Magnitude/Phase/Step and actual heights of 287/240/200 pixels
+across two process launches. Its settings, results, and screenshots are under
+the ignored `build-windows-tools/pane-persistence` directory. The native probe
+verifies restoration; handle dragging is covered by the automated splitter test.
+The existing About layout warnings remain. The fixed application is staged at
+`build-windows-qt612/stage-pane-fix/bin/OpenSoundMeter.exe` because the original
+staged executable was still running. Resize the panes once before the interactive
+restart check: heights overwritten by the earlier build cannot be recovered.
+
 **Dependencies:** Task 13
 
 **Files likely touched:** `qml/Charts.qml`, `qml/SideBar.qml`, `qml/SourceLayout.qml`, `qml/PropetiesBar.qml`
@@ -735,6 +760,14 @@ external SDK was supplied; ASIO verification remains pending.
 Local logs and probe sources are retained in the ignored `build-windows`
 and `build-windows-tools` directories. This verification covered Debug on
 this development machine, not Release redistribution to a clean machine.
+
+Interactive follow-up (2026-11-05, Qt 6.12 Debug): the user confirmed startup,
+project save/open, chart switching/resizing, microphone measurement with repeated
+stop/start, generator playback with repeated stop/start, and dark-theme
+persistence across restart. Three-chart count and Magnitude/Phase/Step selections
+also survived restart, but pane heights did not; see the Task 14 follow-up.
+Import, remote control, recent-file navigation, and runtime-warning investigation
+remain pending.
 
 **Dependencies:** Task 32
 

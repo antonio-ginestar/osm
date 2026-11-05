@@ -49,7 +49,8 @@ Item {
              SplitView.minimumHeight: sv.minimumChartHeight
              SplitView.preferredHeight: applicationSettings.value("layout/charts/1/height", chartsLayout.height)
              SplitView.fillHeight: true
-             onHeightChanged: applicationSettings.setValue("layout/charts/1/height", height)
+             // Persist splitter preferences, not transient startup/window layout sizes.
+             SplitView.onPreferredHeightChanged: applicationSettings.setValue("layout/charts/1/height", SplitView.preferredHeight)
              type: applicationSettings.value("layout/charts/1/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/1/type", type)
 
@@ -63,7 +64,7 @@ Item {
              visible: chartsLayout.count > 1
              SplitView.minimumHeight: sv.minimumChartHeight
              SplitView.preferredHeight: applicationSettings.value("layout/charts/2/height", chartsLayout.height / 2)
-             onHeightChanged: applicationSettings.setValue("layout/charts/2/height", height)
+             SplitView.onPreferredHeightChanged: applicationSettings.setValue("layout/charts/2/height", SplitView.preferredHeight)
              type: applicationSettings.value("layout/charts/2/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/2/type", type)
 
@@ -77,7 +78,7 @@ Item {
              visible: chartsLayout.count > 2
              SplitView.minimumHeight: sv.minimumChartHeight
              SplitView.preferredHeight: applicationSettings.value("layout/charts/3/height", chartsLayout.height / 3)
-             onHeightChanged: applicationSettings.setValue("layout/charts/3/height", height)
+             SplitView.onPreferredHeightChanged: applicationSettings.setValue("layout/charts/3/height", SplitView.preferredHeight)
              type: applicationSettings.value("layout/charts/3/type", "Spectrum")
              onTypeChanged: applicationSettings.setValue("layout/charts/3/type", type)
 
