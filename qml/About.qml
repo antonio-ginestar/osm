@@ -26,14 +26,22 @@ Popup {
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-    Item {
+    Flickable {
+        id: aboutContent
+        clip: true
         anchors.fill: parent
         anchors.rightMargin: 10
         anchors.leftMargin: 10
         anchors.bottomMargin: 10
         anchors.topMargin: 10
+        contentWidth: Math.max(width, aboutLayout.implicitWidth)
+        contentHeight: Math.max(height, aboutLayout.implicitHeight)
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.vertical: ScrollBar { }
+        ScrollBar.horizontal: ScrollBar { }
 
         ColumnLayout {
+            id: aboutLayout
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 20
@@ -111,7 +119,7 @@ Popup {
                     id: mouseArea1
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.fillWidth: false
-                    Layout.preferredWidth: parent.width / 2
+                    Layout.preferredWidth: 200
                     Layout.preferredHeight: 100
 
                     cursorShape: Qt.PointingHandCursor

@@ -64,3 +64,17 @@ set_tests_properties(charts_layout_test PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
     TIMEOUT 30
 )
+
+qt_add_executable(about_layout_test
+    about_layout_test.cpp
+    "${PROJECT_SOURCE_DIR}/images.qrc"
+)
+target_compile_definitions(about_layout_test PRIVATE
+    OSM_ABOUT_QML_FILE="${PROJECT_SOURCE_DIR}/qml/About.qml"
+)
+target_link_libraries(about_layout_test PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Test)
+add_test(NAME about_layout_test COMMAND about_layout_test)
+set_tests_properties(about_layout_test PROPERTIES
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
+    TIMEOUT 20
+)

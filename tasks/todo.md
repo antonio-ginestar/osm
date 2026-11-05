@@ -810,6 +810,26 @@ by interactive testing; the automated remote tests still pass. Runtime-warning
 investigation remains pending. The CSV check does not verify impulse/WAV import
 formats.
 
+Runtime-warning follow-up (2026-11-06): the About dialog's recursive layout
+warning was reproduced by `about_layout_test` at regular and minimum window
+sizes. Its QR-code hit area's preferred width depended on the row's actual
+width, producing a size dependency loop. A stable 200-pixel preferred width,
+matching the other column, removes the loop. The content now uses a clipped
+Flickable with scrollbars so the dialog's contents stay within its bounds and
+remain reachable at the minimum window size.
+
+The new regression fails on recursive-layout warnings and checks opening,
+resizing, reopening, and reaching the bottom link in a small viewport. The
+Windows Debug build, all six CTest tests, and QML checks pass. The test also
+passes with Material controls at 150% scaling; the isolated offscreen test
+retains its font-directory warning. Native visual checks at 1200x900 and
+768x540 show the content correctly contained and no About layout warning.
+Probe sources, screenshots (including the scrolled small view), and logs are
+under `build-windows-tools/about-layout`. The updated application is staged at
+`build-windows-qt612/stage-about-fix/bin/OpenSoundMeter.exe`; user confirmation
+of the About dialog remains pending. Audio access-after-close investigation
+remains open and is separate from this layout fix.
+
 **Dependencies:** Task 32
 
 **Files likely touched:** `tasks/todo.md`
