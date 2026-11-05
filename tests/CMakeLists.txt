@@ -48,6 +48,7 @@ set_tests_properties(remote_network_test PROPERTIES TIMEOUT 20)
 
 qt_add_executable(charts_layout_test
     charts_layout_test.cpp
+    "${PROJECT_SOURCE_DIR}/src/chart/splitviewobserver.h"
     "${PROJECT_SOURCE_DIR}/src/common/settings.cpp"
     "${PROJECT_SOURCE_DIR}/src/common/settings.h"
     "${PROJECT_SOURCE_DIR}/src/common/workingfolder.cpp"

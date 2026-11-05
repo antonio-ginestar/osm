@@ -65,6 +65,7 @@ set(OSM_APPLICATION_SOURCES
     src/chart/seriesitem.h
     src/chart/spectrogramplot.cpp
     src/chart/spectrogramplot.h
+    src/chart/splitviewobserver.h
     src/chart/stepplot.cpp
     src/chart/stepplot.h
     src/chart/type.h

@@ -33,6 +33,7 @@
 #include "src/shared/sourcelist_shared.h"
 #include "src/source/group.h"
 #include "src/chart/variablechart.h"
+#include "src/chart/splitviewobserver.h"
 #include "src/source/measurement.h"
 
 #include "audio/client.h"
@@ -99,6 +100,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<audio::DeviceModel>("Audio", 1, 0, "DeviceModel");
     qmlRegisterType<Chart::VariableChart>("OpenSoundMeter", 1, 0, "VariableChart");
+    qmlRegisterType<Chart::SplitViewObserver>("OpenSoundMeter", 1, 0, "SplitViewObserver");
     qmlRegisterUncreatableMetaObject(Filter::staticMetaObject, "Measurement", 1, 0, "FilterFrequency",
                                      "Error: only enums");
     qmlRegisterType<Measurement>("Measurement", 1, 0, "Measurement");

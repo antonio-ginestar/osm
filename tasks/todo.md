@@ -281,7 +281,35 @@ inert chart delegate and isolated settings; it covers two/three panes, real
 handle dragging, temporary window constraints, and QML-engine recreation.
 The regression failed before the fix and passes after it. On 2026-11-06, the user
 confirmed that resized pane heights survive restart in the fixed staged build.
-Explicit double-click equalization and wide/narrow restart checks remain pending.
+Double-click follow-up (2026-11-06): the user confirmed that double-clicking
+either divider did nothing. SplitView filters handle events before the original
+TapHandler can receive them, while an overlay interferes with dragging. The
+chart container now uses `Chart::SplitViewObserver`, a QQuickItem ancestor that
+observes left-button double-clicks through the documented
+[childMouseEventFilter API](https://doc.qt.io/qt-6/qquickitem.html#childMouseEventFilter).
+It always returns false and leaves mouse grabs to SplitView. `Charts.qml`
+equalizes only when the click falls within a visible divider gap.
+
+The `equalizesOnDividerDoubleClick` regression cases failed before this fix and
+now pass for two panes and both three-pane dividers. They verify chart-body
+double-click delivery without equalization, coordinates with an offset chart
+container, dragging after equalization, and persistence across engine recreation.
+An intentional mutation that consumed events failed the chart-click assertions;
+the mutation was restored before the final passing build. All five CTest tests
+and QML checks pass, with the existing static-analysis warnings. Layout tests
+also pass with Material controls at 150% scaling; the offscreen Material run
+reports a font-directory warning.
+
+An isolated native probe linked against the full application verified both
+divider double-clicks, dragging afterward, and a complete process restart. The
+equalized Magnitude/Phase/Step heights were approximately 235.67/245.67/245.67
+pixels before and after restart; the first pane absorbs the divider spacing.
+Probe sources, settings, JSON results, and screenshots are retained under the
+ignored `build-windows-tools/divider-doubleclick` directory. Existing About
+layout warnings remain. The updated application is staged at
+`build-windows-qt612/stage-divider-fix/bin/OpenSoundMeter.exe`.
+Interactive double-click/restart confirmation and wide/narrow restart checks
+remain pending.
 
 Fix verification: the Qt 6.12 Windows Debug application build and all five
 CTest tests pass; `all_qmllint` passes with the existing application-context and

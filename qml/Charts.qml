@@ -17,10 +17,21 @@
  */
 import QtQuick
 import QtQuick.Controls
+import OpenSoundMeter 1.0
 
-Item {
+SplitViewObserver {
     id: chartsLayout
     property int count: applicationSettings.value("layout/charts/count", 1)
+
+    onDoubleClicked: function(position) {
+        const firstPoint = first.mapFromItem(chartsLayout, position.x, position.y);
+        const secondPoint = second.mapFromItem(chartsLayout, position.x, position.y);
+        const thirdPoint = third.mapFromItem(chartsLayout, position.x, position.y);
+        if ((second.visible && firstPoint.y >= first.height && secondPoint.y < 0)
+                || (third.visible && secondPoint.y >= second.height && thirdPoint.y < 0)) {
+            autoHeight();
+        }
+    }
 
     Component.onCompleted: {
         chartsLayout.onCountChanged.connect(updateCount);
@@ -100,9 +111,6 @@ Item {
                  color: parent.color
              }
 
-             TapHandler {
-                 onDoubleTapped: autoHeight()
-             }
          }
      }
 
