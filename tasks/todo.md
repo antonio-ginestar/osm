@@ -267,7 +267,7 @@ Each task follows the project-wide Definition of Done in addition to its task-sp
 - [x] Qt 6.8 `qmllint` exits successfully for `Charts.qml`, `SideBar.qml`, and `main.qml` (application-context warnings remain).
 - [x] Headless startup passes the migrated shell and remains alive for the 12-second smoke window.
 - [x] A clean first-run settings directory now starts without typed-property `undefined` assignment errors.
-- [ ] Resize/equalize charts, restart, and verify persisted layout at wide and narrow widths.
+- [x] Resize/equalize charts, restart, and verify persisted layout at wide and narrow widths on Windows; other-platform workflow validation remains in Tasks 31-32.
 
 Windows follow-up (2026-11-05): interactive testing confirmed chart switching,
 splitter dragging, and window resizing, but restarting a three-chart layout
@@ -309,8 +309,12 @@ ignored `build-windows-tools/divider-doubleclick` directory. Existing About
 layout warnings remain. The updated application is staged at
 `build-windows-qt612/stage-divider-fix/bin/OpenSoundMeter.exe`.
 On 2026-11-06, the user confirmed that both divider double-clicks equalize the
-panes and the layout survives restart in this updated build. Explicit wide/narrow
-restart checks remain pending.
+panes and the layout survives restart in this updated build. The user also
+confirmed that all three charts and sidebar controls remain usable at the
+smallest allowed window size, and the window size/layout survive restart.
+Together with the earlier regular-window checks, this completes the Windows
+wide/narrow layout verification. Linux/macOS workflow validation remains in
+Tasks 31-32.
 
 Fix verification: the Qt 6.12 Windows Debug application build and all five
 CTest tests pass; `all_qmllint` passes with the existing application-context and
