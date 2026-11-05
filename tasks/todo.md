@@ -308,8 +308,9 @@ Probe sources, settings, JSON results, and screenshots are retained under the
 ignored `build-windows-tools/divider-doubleclick` directory. Existing About
 layout warnings remain. The updated application is staged at
 `build-windows-qt612/stage-divider-fix/bin/OpenSoundMeter.exe`.
-Interactive double-click/restart confirmation and wide/narrow restart checks
-remain pending.
+On 2026-11-06, the user confirmed that both divider double-clicks equalize the
+panes and the layout survives restart in this updated build. Explicit wide/narrow
+restart checks remain pending.
 
 Fix verification: the Qt 6.12 Windows Debug application build and all five
 CTest tests pass; `all_qmllint` passes with the existing application-context and
