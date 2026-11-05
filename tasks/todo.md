@@ -804,8 +804,11 @@ On 2026-11-06, the user also confirmed that recent-file navigation reopens the
 test project correctly. CSV transfer-data import passed with the synthetic sample
 at `build-windows-tools/manual-checks/import-test.csv`: its magnitude has a 6 dB
 peak near 1 kHz and its phase is zero throughout, matching the displayed charts.
-Remote control and runtime-warning investigation remain pending; the CSV check
-does not verify impulse/WAV import formats.
+On 2026-11-06, the user explicitly deferred the interactive remote-control test
+because a second computer was unavailable. Remote behavior remains unverified
+by interactive testing; the automated remote tests still pass. Runtime-warning
+investigation remains pending. The CSV check does not verify impulse/WAV import
+formats.
 
 **Dependencies:** Task 32
 
