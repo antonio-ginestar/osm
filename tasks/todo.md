@@ -767,8 +767,11 @@ project save/open, chart switching/resizing, microphone measurement with repeate
 stop/start, generator playback with repeated stop/start, and dark-theme
 persistence across restart. Three-chart count and Magnitude/Phase/Step selections
 also survived restart, but pane heights did not; see the Task 14 follow-up.
-Import, remote control, recent-file navigation, and runtime-warning investigation
-remain pending.
+On 2026-11-06, the user also confirmed that recent-file navigation reopens the
+test project correctly. Import, remote control, and runtime-warning investigation
+remain pending. A synthetic CSV transfer-data sample for the next manual check
+is available locally at `build-windows-tools/manual-checks/import-test.csv`;
+its magnitude has a 6 dB peak near 1 kHz and its phase is zero throughout.
 
 **Dependencies:** Task 32
 
