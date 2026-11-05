@@ -768,10 +768,11 @@ stop/start, generator playback with repeated stop/start, and dark-theme
 persistence across restart. Three-chart count and Magnitude/Phase/Step selections
 also survived restart, but pane heights did not; see the Task 14 follow-up.
 On 2026-11-06, the user also confirmed that recent-file navigation reopens the
-test project correctly. Import, remote control, and runtime-warning investigation
-remain pending. A synthetic CSV transfer-data sample for the next manual check
-is available locally at `build-windows-tools/manual-checks/import-test.csv`;
-its magnitude has a 6 dB peak near 1 kHz and its phase is zero throughout.
+test project correctly. CSV transfer-data import passed with the synthetic sample
+at `build-windows-tools/manual-checks/import-test.csv`: its magnitude has a 6 dB
+peak near 1 kHz and its phase is zero throughout, matching the displayed charts.
+Remote control and runtime-warning investigation remain pending; the CSV check
+does not verify impulse/WAV import formats.
 
 **Dependencies:** Task 32
 
