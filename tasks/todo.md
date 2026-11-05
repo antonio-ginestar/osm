@@ -279,8 +279,9 @@ startup and constrained window layouts, as described by the
 The `charts_layout_test` regression uses the production `Charts.qml` with an
 inert chart delegate and isolated settings; it covers two/three panes, real
 handle dragging, temporary window constraints, and QML-engine recreation.
-The regression failed before the fix and passes after it. Interactive restart
-verification of the rebuilt application remains pending.
+The regression failed before the fix and passes after it. On 2026-11-06, the user
+confirmed that resized pane heights survive restart in the fixed staged build.
+Explicit double-click equalization and wide/narrow restart checks remain pending.
 
 Fix verification: the Qt 6.12 Windows Debug application build and all five
 CTest tests pass; `all_qmllint` passes with the existing application-context and
@@ -291,8 +292,8 @@ the ignored `build-windows-tools/pane-persistence` directory. The native probe
 verifies restoration; handle dragging is covered by the automated splitter test.
 The existing About layout warnings remain. The fixed application is staged at
 `build-windows-qt612/stage-pane-fix/bin/OpenSoundMeter.exe` because the original
-staged executable was still running. Resize the panes once before the interactive
-restart check: heights overwritten by the earlier build cannot be recovered.
+staged executable was still running. The successful interactive retest followed
+one resize to replace the heights overwritten by the earlier build.
 
 **Dependencies:** Task 13
 
