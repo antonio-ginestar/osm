@@ -68,9 +68,9 @@ QSGNode *SeriesItem::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNo
     return node;
 }
 
-void SeriesItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void SeriesItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    QQuickItem::geometryChanged(newGeometry, oldGeometry);
+    QQuickItem::geometryChange(newGeometry, oldGeometry);
     if (newGeometry.size() != oldGeometry.size()) {
         update();
     }
