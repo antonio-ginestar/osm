@@ -929,5 +929,21 @@ The value-conversion test also passed all 11 cases with an invalid display
 plugin selected, proving it no longer initializes the window system. Actionlint
 1.7.12 accepted the workflow and rejected an intentionally invalid expression
 in an ignored copy. Independent review found and verified fixes for the test's
-GUI startup and the Windows runtime-installer deployment requirement. Full
-local Release build/lint/staging and the first hosted run remain in progress.
+GUI startup and the Windows runtime-installer deployment requirement.
+
+The clean local Windows Release application build and `all_qmllint` target
+passed. QML lint retains the existing advisory warnings; its failure policy
+was not changed. Installation completed without deployment warnings and
+included `bin/vc_redist.x64.exe`. The staged tar archive was created and its
+application, Qt core library, platform plugin, runtime installer, and license
+were verified. Local output: `build-ci-windows/OpenSoundMeter-windows-opengl.tar`
+(ignored). The local application build predates the CI commit's version label;
+the hosted run must build the published commit itself.
+
+Task 38 is pending explicit approval to publish `codex/desktop-ci`, including
+the earlier locally verified migration fixes, to
+`https://github.com/antonio-ginestar/osm.git`. Automatic approval review rejected
+the push because uploading local source/commits had not been explicitly
+authorized. No push occurred, and no hosted checks have run. The default branch
+and branch-protection settings are unchanged. After approval, push the branch,
+observe all four jobs, and fix actual failures before marking this task done.
