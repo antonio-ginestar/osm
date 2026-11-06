@@ -684,6 +684,11 @@ verified here. The application reports the missing default device as expected.
 Hands-on menu, chart, project, remote, settings, and shutdown workflows remain
 pending on an interactive Linux workstation with audio hardware.
 
+Qt 6.12 CI follow-up (2026-11-06): Ubuntu 24.04 x64/GCC 13.3 passed the
+Release build, QML lint, all six device-independent CTests, installation, and
+artifact upload in run 42278980350 (see Task 38). This does not complete the
+remaining interactive/hardware checks above.
+
 **Dependencies:** Tasks 29-30
 
 **Files likely touched:** `tasks/todo.md`
@@ -700,7 +705,18 @@ pending on an interactive Linux workstation with audio hardware.
 - [ ] App bundle installs and launches with required resources.
 
 **Verification:**
-- [ ] Record exact commands, Qt/Xcode versions, test results, and signing/notarization limitations below this task.
+- [x] Record exact commands, Qt/Xcode versions, test results, and signing/notarization limitations below this task.
+
+Qt 6.12 CI evidence (2026-11-06): both OpenGL and Metal passed on
+`macos-15-intel` with Xcode 16.4/AppleClang 17.0.0.17000013. The exact configure,
+Release build, `all_qmllint`, CTest, and install commands are recorded in
+`.github/workflows/desktop.yml` and the successful run:
+https://github.com/antonio-ginestar/osm/actions/runs/42278980350
+Each renderer passed all six CTests and produced an installed app archive.
+The Metal log confirms `Contents/Resources/lib.metallib` was compiled, copied,
+and installed. These builds have no distribution signing or notarization.
+CoreAudio devices, microphone permissions, real chart rendering, and bundle
+launch on a desktop remain unverified; the acceptance boxes above stay open.
 
 **Dependencies:** Task 31
 
@@ -918,7 +934,7 @@ assigned to Tasks 31-32. Interactive remote testing remains explicitly deferred.
 - [x] Task 36: run all six CTests with software-rendered offscreen layout tests
   and no GUI application in the value-conversion test.
 - [x] Task 37: add four Release build/lint/test/deploy jobs and CI documentation.
-- [ ] Task 38: review, validate Windows Release locally, publish the branch,
+- [x] Task 38: review, validate Windows Release locally, publish the branch,
   and record the first hosted run's platform results.
 
 Hardware audio/rendering, interactive remote control (deferred by the user),
@@ -965,3 +981,28 @@ The macOS OpenGL job reached native CoreAudio compilation and exposed Qt
 by Clang. Use `stopStreams(QPrivateSignal{})` without changing the signal
 signature or shutdown behavior. The first Windows hosted job passed build,
 QML checks, all six CTests, deployment, and artifact upload.
+
+The corrected hosted run passed all four jobs on published commit
+`e6b2dd07f2f9c17c71e747e0a8f5bd7304a63051`:
+https://github.com/antonio-ginestar/osm/actions/runs/42278980350
+
+| Job | Release build / QML lint | CTest | Deploy / archive upload |
+| --- | --- | --- | --- |
+| windows-opengl | Passed | 6/6 passed | Passed, MSVC runtime included |
+| linux-opengl | Passed | 6/6 passed | Passed, Qt ICU runtime included |
+| macos-opengl | Passed | 6/6 passed | Passed |
+| macos-metal | Passed | 6/6 passed | Passed, Metal shader library installed |
+
+All four application archives and four diagnostic artifacts were verified in
+the run metadata; retention is seven days. Windows artifact:
+https://github.com/antonio-ginestar/osm/actions/runs/42278980350/artifacts/13534848539
+The workflow token remains read-only and checkout does not persist credentials.
+No test was disabled and no failing matrix job was excluded. Existing advisory
+QML/compiler warnings remain visible under the unchanged lint/build policy.
+
+The tested source and workflow are published on `codex/desktop-ci`. This final
+evidence update is saved locally for review. `master` remains at
+`ee493079ae74c82255c0978a26e947259daa6877`; merge approval is still required by
+the existing Task 35 checkpoint. Native audio/chart verification on Linux and
+macOS, deferred interactive remote testing, ASIO, clean-machine acceptance, and
+release signing remain separate; qmake is retained.
