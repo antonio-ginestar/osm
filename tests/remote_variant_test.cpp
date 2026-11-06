@@ -108,6 +108,6 @@ private slots:
     }
 };
 
-QTEST_MAIN(RemoteVariantTest)
+QTEST_GUILESS_MAIN(RemoteVariantTest)
 
 #include "remote_variant_test.moc"

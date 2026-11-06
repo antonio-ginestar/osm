@@ -101,7 +101,15 @@ Run `stage/bin/OpenSoundMeter.exe` after installation, and copy the entire stagi
 folder when moving the application to another location. Building alone leaves
 the executable dependent on the Qt development environment.
 
+For a Windows Release install, run from a Visual Studio developer shell (or
+set `VCINSTALLDIR` to its `VC` directory) so Qt can include `vc_redist.x64.exe`.
+On machines without the Microsoft Visual C++ runtime, run that included
+installer before launching the application.
+
 ## Release builds and checks
+
+The [desktop CI guide](docs/ci.md) describes the four automated platform checks,
+downloadable test builds, and checks that still require real hardware.
 
 Use `-DCMAKE_BUILD_TYPE=Release` with single-configuration generators. With
 Visual Studio or another multi-configuration generator, pass `--config Release`

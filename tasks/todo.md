@@ -912,3 +912,22 @@ assigned to Tasks 31-32. Interactive remote testing remains explicitly deferred.
 **Files likely touched:** Only files with review findings; each fix remains a bounded increment.
 
 **Estimated scope:** Repeated small increments
+
+## Desktop CI increment — Qt 6.12 (2026-11-06)
+
+- [x] Task 36: run all six CTests with software-rendered offscreen layout tests
+  and no GUI application in the value-conversion test.
+- [x] Task 37: add four Release build/lint/test/deploy jobs and CI documentation.
+- [ ] Task 38: review, validate Windows Release locally, publish the branch,
+  and record the first hosted run's platform results.
+
+Hardware audio/rendering, interactive remote control (deferred by the user),
+ASIO, signing, and clean-machine release acceptance remain separate checks.
+
+Validation so far: all six local Windows Release CTests passed (3.07 seconds).
+The value-conversion test also passed all 11 cases with an invalid display
+plugin selected, proving it no longer initializes the window system. Actionlint
+1.7.12 accepted the workflow and rejected an intentionally invalid expression
+in an ignored copy. Independent review found and verified fixes for the test's
+GUI startup and the Windows runtime-installer deployment requirement. Full
+local Release build/lint/staging and the first hosted run remain in progress.

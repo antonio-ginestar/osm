@@ -60,8 +60,9 @@ target_compile_definitions(charts_layout_test PRIVATE
 )
 target_link_libraries(charts_layout_test PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Test)
 add_test(NAME charts_layout_test COMMAND charts_layout_test)
+# Layout/pointer tests use inert chart items and do not require a GPU.
 set_tests_properties(charts_layout_test PROPERTIES
-    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_BACKEND=software;QT_QUICK_CONTROLS_STYLE=Basic"
     TIMEOUT 30
 )
 
@@ -75,7 +76,7 @@ target_compile_definitions(about_layout_test PRIVATE
 target_link_libraries(about_layout_test PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Test)
 add_test(NAME about_layout_test COMMAND about_layout_test)
 set_tests_properties(about_layout_test PROPERTIES
-    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_BACKEND=software;QT_QUICK_CONTROLS_STYLE=Basic"
     TIMEOUT 20
 )
 

@@ -145,3 +145,22 @@ CMake application target
 - A discoverable Qt 6.8 desktop kit is required to turn the current static planning work into compiler evidence.
 - macOS and Windows runners or machines are required for their native backend verification.
 - Optional ASIO verification requires a separately supplied ASIO SDK; it will not be added to the repository.
+
+## Desktop CI increment (2026-11-06, Qt 6.12)
+
+This continues the migration above using the Qt 6.12 kit already validated on
+Windows. Historical Qt 6.8 milestones remain historical, not current evidence.
+
+1. Task 36: make the two layout tests explicitly use Qt's software backend;
+   run all six device-independent tests locally. Keep native audio tests opt-in.
+2. Task 37: add Release builds for Windows/OpenGL, Linux/OpenGL, macOS/OpenGL,
+   and macOS/Metal. Require build, QML lint, CTest, and deployment; preserve
+   failures and upload staged archives and diagnostic logs. Document scope.
+3. Task 38: review the workflow, validate a clean Windows Release locally,
+   publish the CI branch, and observe the first hosted run. Record actual
+   results separately from physical-device and clean-machine checks.
+
+Acceptance: no skipped matrix failures, no credentials in checked-out source,
+read-only workflow permissions, immutable action/tool references, and no change
+to the deferred remote-control test or qmake retirement criteria. Merging or
+releasing remains subject to the existing human approval checkpoint.
