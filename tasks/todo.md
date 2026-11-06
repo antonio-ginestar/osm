@@ -862,9 +862,11 @@ stop calls took 19-27 ms on this development machine. Probe sources, isolated
 settings, and logs are under `build-windows-tools/wasapi-app-check`; the standalone
 test log is `build-windows-qt612/wasapi-shutdown-test.log`. The updated application
 is staged at `build-windows-qt612/stage-audio-fix/bin/OpenSoundMeter.exe`.
-Interactive confirmation of repeated measurement/generator start-stop and normal
-application shutdown remains pending. The existing 1000 ms native wait timeout
-is retained; other-platform audio backends remain assigned to Tasks 31-32.
+On 2026-11-06, the user confirmed repeated measurement/generator start-stop,
+responsive operation, and normal application close/reopen in this updated build.
+This completes the local Windows runtime-warning follow-up. The existing
+1000 ms native wait timeout is retained; other-platform audio backends remain
+assigned to Tasks 31-32. Interactive remote testing remains explicitly deferred.
 
 **Dependencies:** Task 32
 
