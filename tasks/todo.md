@@ -1000,9 +1000,10 @@ The workflow token remains read-only and checkout does not persist credentials.
 No test was disabled and no failing matrix job was excluded. Existing advisory
 QML/compiler warnings remain visible under the unchanged lint/build policy.
 
-The tested source and workflow are published on `codex/desktop-ci`. This final
-evidence update is saved locally for review. `master` remains at
-`ee493079ae74c82255c0978a26e947259daa6877`; merge approval is still required by
-the existing Task 35 checkpoint. Native audio/chart verification on Linux and
-macOS, deferred interactive remote testing, ASIO, clean-machine acceptance, and
-release signing remain separate; qmake is retained.
+The user approved merging the tested CI increment and included fixes into
+`master` on 2026-11-06. The published source/workflow at `e6b2dd0` has the
+successful four-platform run above; subsequent commits record evidence and
+this approval only. This approval covers this merge, not a release or qmake
+retirement. Native audio/chart verification on Linux and macOS, deferred
+interactive remote testing, ASIO, clean-machine acceptance, and release signing
+remain separate; qmake is retained.
