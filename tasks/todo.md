@@ -940,10 +940,22 @@ were verified. Local output: `build-ci-windows/OpenSoundMeter-windows-opengl.tar
 (ignored). The local application build predates the CI commit's version label;
 the hosted run must build the published commit itself.
 
-Task 38 is pending explicit approval to publish `codex/desktop-ci`, including
-the earlier locally verified migration fixes, to
-`https://github.com/antonio-ginestar/osm.git`. Automatic approval review rejected
-the push because uploading local source/commits had not been explicitly
-authorized. No push occurred, and no hosted checks have run. The default branch
-and branch-protection settings are unchanged. After approval, push the branch,
-observe all four jobs, and fix actual failures before marking this task done.
+The user explicitly approved publication on 2026-11-06. The branch, including
+the earlier verified migration fixes, was pushed to
+`https://github.com/antonio-ginestar/osm.git`; the default branch and its
+protection settings are unchanged. First hosted run:
+https://github.com/antonio-ginestar/osm/actions/runs/42277182709
+
+The Linux job exposed a missing Qt runtime archive during configuration:
+`qmlimportscanner` could not load `libicui18n.so.73`. Qt's published Linux
+archive list includes `icu` separately from `qtbase`; include it only on
+Linux. Other platform jobs are still running; Task 38 remains pending until
+the fixes pass all four hosted jobs.
+
+The Metal job then found a remaining Qt 5 override in `SeriesItem`: Qt 6 calls
+`geometryChange`, not `geometryChanged`. Updated the declaration, definition,
+and base call together, retaining the redraw-on-size-change behavior. API:
+https://doc.qt.io/qt-6.12/qquickitem.html#geometryChange
+The actual `seriesitem.cpp` compiled successfully as an object target against
+the local Qt 6.12 headers. Independent review approved both bounded fixes;
+the full native Metal rebuild is still required.

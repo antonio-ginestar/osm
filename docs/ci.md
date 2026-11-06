@@ -67,6 +67,8 @@ The pinned upstream aqtinstall revision supports Qt's new Windows compiler
 subdirectories; aqtinstall 3.3.0 does not. The Python version is 3.12 and py7zr
 is pinned to 1.1.3. The Qt base archives and addon modules match the locally
 validated Windows kit, including `qttasktree` needed by Qt 6.12 QML tooling.
+Linux also installs Qt's `icu` archive: the official Qt binaries require ICU
+73, which the clean hosted runner does not provide.
 
 Sources:
 

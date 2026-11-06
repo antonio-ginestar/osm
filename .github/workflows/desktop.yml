@@ -68,7 +68,8 @@ jobs:
           host: ${{ matrix.host }}
           target: desktop
           arch: ${{ matrix.arch }}
-          archives: qtbase qtdeclarative qtsvg qttools qttranslations
+          # Linux Qt binaries need their matching ICU runtime, separate from qtbase.
+          archives: qtbase qtdeclarative qtsvg qttools qttranslations ${{ matrix.host == 'linux' && 'icu' || '' }}
           modules: qttasktree qtshadertools
           setup-python: false
           # This upstream revision understands the Qt 6.11+ Windows compiler folders.
