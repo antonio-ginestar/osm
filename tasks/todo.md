@@ -959,3 +959,9 @@ https://doc.qt.io/qt-6.12/qquickitem.html#geometryChange
 The actual `seriesitem.cpp` compiled successfully as an object target against
 the local Qt 6.12 headers. Independent review approved both bounded fixes;
 the full native Metal rebuild is still required.
+
+The macOS OpenGL job reached native CoreAudio compilation and exposed Qt
+6.12's explicit private-signal tag constructor: `stopStreams({})` is rejected
+by Clang. Use `stopStreams(QPrivateSignal{})` without changing the signal
+signature or shutdown behavior. The first Windows hosted job passed build,
+QML checks, all six CTests, deployment, and artifact upload.

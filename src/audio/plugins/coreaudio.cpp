@@ -76,7 +76,7 @@ CoreaudioPlugin::CoreaudioPlugin() : Plugin()
 
 CoreaudioPlugin::~CoreaudioPlugin()
 {
-    emit stopStreams({});
+    emit stopStreams(QPrivateSignal{});
 }
 
 QString CoreaudioPlugin::name() const
