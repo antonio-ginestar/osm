@@ -296,10 +296,14 @@ Stream *WasapiPlugin::open(const DeviceInfo::Id &id, const Plugin::Direction &mo
 
         stream = new Stream(streamFormat);
         QThread *audioEndpointThread = QThread::create(
-        [renderClient, endpoint, streamReadyEvent, client, bufferSizeInFrames, bytesPerFrame]() {
+        [stream, renderClient, endpoint, streamReadyEvent, client, bufferSizeInFrames, bytesPerFrame]() {
             BYTE *data;
             UINT32 padding, framesAvailable;
-            while (endpoint->isOpen() && (WaitForSingleObject(streamReadyEvent, 1000) == WAIT_OBJECT_0)) {
+            while (stream->active() && endpoint->isOpen()
+                   && (WaitForSingleObject(streamReadyEvent, 1000) == WAIT_OBJECT_0)) {
+                // The stream may have been closed while this worker was waiting.
+                if (!stream->active() || !endpoint->isOpen())
+                    break;
                 checkStatus(client->GetCurrentPadding(&padding), "GetCurrentPadding");
                 framesAvailable = bufferSizeInFrames - padding;
                 if (checkStatus(renderClient->GetBuffer(framesAvailable, &data), "GetBuffer")) {
@@ -313,11 +317,10 @@ Stream *WasapiPlugin::open(const DeviceInfo::Id &id, const Plugin::Direction &mo
 
         connect(stream, &Stream::closeMe, this, [stream, endpoint, client, audioEndpointThread, renderClient,
                 streamReadyEvent]() {
+            // Stream::close() clears its atomic active flag before emitting closeMe.
+            audioEndpointThread->wait();
             endpoint->close();
             CloseHandle(streamReadyEvent);
-
-            audioEndpointThread->quit();
-            audioEndpointThread->wait();
             renderClient->Release();
             client->Release();
             stream->deleteLater();
@@ -342,7 +345,10 @@ Stream *WasapiPlugin::open(const DeviceInfo::Id &id, const Plugin::Direction &mo
             UINT32 availableFramesCount;
             DWORD flags;
 
-            while (endpoint->isOpen() && (WaitForSingleObject(streamReadyEvent, 1000) == WAIT_OBJECT_0)) {
+            while (stream->active() && endpoint->isOpen()
+                   && (WaitForSingleObject(streamReadyEvent, 1000) == WAIT_OBJECT_0)) {
+                if (!stream->active() || !endpoint->isOpen())
+                    break;
                 checkStatus(captureClient->GetNextPacketSize(&availableFramesCount), "GetNextPacketSize");
                 if (availableFramesCount == 0) {
                     continue;
@@ -360,12 +366,12 @@ Stream *WasapiPlugin::open(const DeviceInfo::Id &id, const Plugin::Direction &mo
             CloseHandle(streamReadyEvent);
             captureClient->Release();
             client->Release();
-            stream->deleteLater();
         });
 
-        connect(stream, &Stream::closeMe, this, [endpoint, audioEndpointThread]() {
+        connect(stream, &Stream::closeMe, this, [stream, endpoint, audioEndpointThread]() {
+            audioEndpointThread->wait();
             endpoint->close();
-            audioEndpointThread->wait(QDeadlineTimer(1));
+            stream->deleteLater();
         }, Qt::DirectConnection);
         audioEndpointThread->start();
         break;

@@ -388,13 +388,16 @@ void Measurement::setActive(bool newActive)
 {
     if (newActive == active())
         return;
-    std::lock_guard<std::mutex> guard(m_dataMutex);
+    std::unique_lock<std::mutex> guard(m_dataMutex);
 
     Abstract::Source::setActive(newActive);
     m_error = false;
     emit errorChanged(m_error);
 
+    // A worker finishing its callback may need this mutex during stream shutdown.
+    guard.unlock();
     updateAudio();
+    guard.lock();
 
     m_levelMeters.reset();
     m_loopBuffer.reset();
@@ -856,7 +859,6 @@ void Measurement::applyCalibration()
 void Measurement::updateAudio()
 {
     if (m_audioStream) {
-        m_input.close();
         m_audioStream->disconnect(this);
         m_audioStream->close();
     }

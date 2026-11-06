@@ -807,8 +807,8 @@ peak near 1 kHz and its phase is zero throughout, matching the displayed charts.
 On 2026-11-06, the user explicitly deferred the interactive remote-control test
 because a second computer was unavailable. Remote behavior remains unverified
 by interactive testing; the automated remote tests still pass. Runtime-warning
-investigation remains pending. The CSV check does not verify impulse/WAV import
-formats.
+fixes and verification are documented below. The CSV check does not verify
+impulse/WAV import formats.
 
 Runtime-warning follow-up (2026-11-06): the About dialog's recursive layout
 warning was reproduced by `about_layout_test` at regular and minimum window
@@ -828,8 +828,43 @@ Probe sources, screenshots (including the scrolled small view), and logs are
 under `build-windows-tools/about-layout`. The updated application is staged at
 `build-windows-qt612/stage-about-fix/bin/OpenSoundMeter.exe`. On 2026-11-06,
 the user confirmed the small-window About content scrolls inside the dialog and
-the close button works. Audio access-after-close investigation remains open
-and is separate from this layout fix.
+the close button works. The separate audio shutdown fix follows.
+
+Audio shutdown follow-up (2026-11-06): `wasapi_shutdown_test` reproduced the
+capture and playback `QIODevice` access-after-close warnings, closing an endpoint
+before its worker finished, and premature deletion of an input Stream after an
+early worker exit. The Windows workers now check the Stream's atomic active flag
+before and after waiting for a native event. Normal close joins the worker before
+closing its endpoint; playback closes the native event handle after the join.
+Capture native cleanup remains in the worker, while Stream deletion belongs to
+the owner's close path. This also follows the Windows
+[wait-handle lifetime requirement](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject).
+
+Measurement no longer closes its endpoint before closing its Stream. It releases
+the data mutex around `updateAudio()` so a finishing capture callback can acquire
+that mutex, then reacquires it for meter/loop resets. The Stream pointer remains
+stable until shutdown finishes. Independent review found no remaining issues
+with this normal single-close lifecycle; its non-silent microphone prerequisite
+for the hardware test is documented in CONTRIBUTING.md.
+
+Verification: the Windows Debug application build, all six hardware-independent
+CTest tests, and QML checks pass, with the existing static-analysis warnings.
+The opt-in hardware test passes three capture and three zero-output playback
+cycles plus an early input-worker exit, without access-after-close warnings.
+An intentional inversion of the worker's active condition was detected by the
+playback regression; the final source was restored, rebuilt, and retested.
+Captured hardware-test samples are counted without being retained or saved.
+
+An isolated full-application check also completed ten measurement/generator
+start-stop cycles without warnings or freezes. Its sine generator used zero Hz
+and zero-valued output; measurement samples were not saved. Combined input/output
+stop calls took 19-27 ms on this development machine. Probe sources, isolated
+settings, and logs are under `build-windows-tools/wasapi-app-check`; the standalone
+test log is `build-windows-qt612/wasapi-shutdown-test.log`. The updated application
+is staged at `build-windows-qt612/stage-audio-fix/bin/OpenSoundMeter.exe`.
+Interactive confirmation of repeated measurement/generator start-stop and normal
+application shutdown remains pending. The existing 1000 ms native wait timeout
+is retained; other-platform audio backends remain assigned to Tasks 31-32.
 
 **Dependencies:** Task 32
 

@@ -78,3 +78,21 @@ set_tests_properties(about_layout_test PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_CONTROLS_STYLE=Basic"
     TIMEOUT 20
 )
+
+if(WIN32)
+    # Run explicitly on a desktop with audio devices; keep CTest hardware-free.
+    qt_add_executable(wasapi_shutdown_test
+        wasapi_shutdown_test.cpp
+        "${PROJECT_SOURCE_DIR}/src/audio/plugins/wasapi.cpp"
+        "${PROJECT_SOURCE_DIR}/src/audio/plugins/wasapi.h"
+        "${PROJECT_SOURCE_DIR}/src/audio/plugin.cpp"
+        "${PROJECT_SOURCE_DIR}/src/audio/plugin.h"
+        "${PROJECT_SOURCE_DIR}/src/audio/stream.cpp"
+        "${PROJECT_SOURCE_DIR}/src/audio/stream.h"
+        "${PROJECT_SOURCE_DIR}/src/audio/deviceinfo.cpp"
+        "${PROJECT_SOURCE_DIR}/src/audio/format.cpp"
+    )
+    target_include_directories(wasapi_shutdown_test PRIVATE "${PROJECT_SOURCE_DIR}/src")
+    target_compile_definitions(wasapi_shutdown_test PRIVATE NOMINMAX)
+    target_link_libraries(wasapi_shutdown_test PRIVATE Qt6::Test ole32)
+endif()

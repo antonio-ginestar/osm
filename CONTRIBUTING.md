@@ -117,3 +117,20 @@ ctest --test-dir build --output-on-failure
 For a multi-configuration build, add `-C Debug` or `-C Release` to `ctest`.
 Run the affected workflows manually, especially audio-device, chart-rendering,
 project save/load, settings, and remote-control behavior.
+
+### Windows audio-shutdown regression
+
+The `wasapi_shutdown_test` executable is an opt-in hardware test, separate from
+CTest. It requires an available default output and an unmuted default microphone
+providing non-silent input. Playback uses zero-valued samples; captured samples
+are counted without being retained or saved. Run it from the matching Qt
+development shell after configuring the Windows build:
+
+```powershell
+cmake --build build --config Debug --target wasapi_shutdown_test
+.\build\Debug\wasapi_shutdown_test.exe
+```
+
+The test covers repeated capture/playback shutdown, absence of access-after-close
+warnings, and input-stream ownership after an early worker exit. The normal
+CTest suite remains independent of physical audio devices.
